@@ -1,11 +1,11 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom'
-import Footer from './Footer'
-import Header from './Header'
+import React from "react";
+import { Outlet } from "react-router-dom";
+import Footer from "./Footer";
+import Header from "./Header";
 
 export default function Layout() {
   return (
-    <div>
+    <div style={{ backgroundColor: "#fdfcf0" }}>
       <Header />
       {/* left  */}
       {/* hiện thị content của pages */}
@@ -14,5 +14,5 @@ export default function Layout() {
       {/* right */}
       <Footer />
     </div>
-  )
+  );
 }

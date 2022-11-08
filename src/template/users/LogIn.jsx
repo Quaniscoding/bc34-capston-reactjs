@@ -41,7 +41,7 @@ export default function LogIn() {
   };
 
   return (
-    <div className="container mt-5 text-left">
+    <div className="container mt-5 text-center">
       {isLogin ? (
         <button
           className="btn btn-danger"
@@ -50,7 +50,7 @@ export default function LogIn() {
             localStorage.removeItem(USER_LOGIN);
           }}
         >
-          Logout
+          Đăng Xuất
         </button>
       ) : (
         <Form
@@ -67,6 +67,9 @@ export default function LogIn() {
           onFinish={onFinish}
           autoComplete="off"
         >
+          <div>
+            <h1>Đăng Nhập</h1>
+          </div>
           <Form.Item
             label="Tài khoản"
             name="taiKhoan"

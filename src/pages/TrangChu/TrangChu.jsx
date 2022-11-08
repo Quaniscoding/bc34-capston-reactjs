@@ -16,20 +16,19 @@ import moment from "moment/moment";
 import { MDBRipple } from "mdb-react-ui-kit";
 const { Meta } = Card;
 const contentStyle = {
-  height: "160px",
-  color: "#4b3e2e",
-  lineHeight: "160px",
-  textAlign: "center",
-  background: "#364d79",
-  width: "50%",
+  // height: "160px",
+  // color: "#4b3e2e",
+  // lineHeight: "160px",
+  // textAlign: "center",
+  // background: "#364d79",
+  width: "800px",
 };
 export default function HomeTicketMovie() {
   const [dataRap, setDataRap] = useState([]);
   const [dataLichChieu, setLichChieu] = useState([]);
   let ditpatch = useDispatch();
   let timeout = null;
-  // let isLogin = localStorage.getItem(USER_LOGIN);
-  let isLogin = true;
+  let isLogin = localStorage.getItem(USER_LOGIN);
   let danhSachPhim = useSelector(
     (state) => state.danhSachPhimReducer.danhSachPhim
   );
@@ -84,8 +83,8 @@ export default function HomeTicketMovie() {
   return (
     <div className="container main-container">
       {isLogin ? (
-        <div style={{ width: "950px" }}>
-          <Carousel autoplay style={{ paddingLeft: "35%" }}>
+        <div className="carousel-main">
+          <Carousel autoplay>
             {banner.map((item, index) => {
               return (
                 <img key={index} src={item.hinhAnh} style={{ contentStyle }} />
@@ -136,16 +135,16 @@ export default function HomeTicketMovie() {
                       >
                         <div className="h-100">
                           <div className="imgPhim">
-                            <h4
+                            <h3
                               className="align-items-center"
                               style={{ color: "turquoise" }}
                             >
                               Tên phim: {item.tenPhim}
-                            </h4>
-
-                            <h3 className="text-white mb-0">
-                              Đánh giá: {item.danhGia} điểm
                             </h3>
+
+                            <h5 className="text-white mb-0">
+                              Đánh giá: {item.danhGia} điểm
+                            </h5>
                             <div>
                               <button
                                 type="button"
@@ -171,16 +170,13 @@ export default function HomeTicketMovie() {
           </OwlCarousel>
         </div>
       ) : (
-        <Result
-          status="404"
-          title="Bạn phải đăng nhập để thấy danh sách phim"
-        />
-      )}
-      <div className="home-movie-selection">
-        <div className="home-title-2">
-          <h2 style={{ color: "black" }}>THEATER LIST</h2>
+        <div>
+          <Result
+            status="404"
+            title="Bạn phải đăng nhập để thấy danh sách phim"
+          />
         </div>
-      </div>
+      )}
       {isLogin ? (
         <div className=" pt-5 text-left row">
           <div className="col-3">

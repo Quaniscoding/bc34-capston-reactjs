@@ -15,6 +15,9 @@ export default function SignUp(props) {
   return (
     <div className="container text-left mt-5">
       <Form name="register" onFinish={onFinish}>
+        <div>
+          <h1>Đăng ký</h1>
+        </div>
         <Form.Item
           name="taiKhoan"
           label="Tài khoản"

@@ -40,3 +40,63 @@
 .ant-carousel .slick-dots {
     display: none !important;
 }
+ul {
+    list-style: none !important;
+}
+.content-cgv-policy {
+    width: 980px;
+    margin: 0px auto;
+}
+.cgv-vietnam,.cgv-policy,.cgv-follow-us,.customer-cgv {
+    float: left;
+    width: 25%;
+}
+.content-cgv-policy h3 {
+    color: #636363;
+    font-size: 14px;
+    font-weight: bold;
+}
+.content-cgv-policy a {
+    color: #636363;
+    font-size: 14px;
+    line-height: 22px;
+}
+.footer-image{
+    background: url(https://www.cgv.vn/skin/frontend/cgv/default/images/bg-cgv/bg-bottom-footer.jpg) repeat-x scroll center bottom rgba(0, 0, 0, 0);
+    padding-top: 20px;
+    padding-bottom:100px;
+}
+.footer-cgv-policy {
+    width: 100%;
+    padding: 20px 0px;
+    border-bottom: 2px solid #222;
+    border-top: 2px solid #222;
+    overflow: hidden;
+    display: block;
+}
+li .ant-space {
+text-align: left;
+}
+ul {
+    padding-left: 0 !important;
+}
+a:hover{
+    outline: none;
+    color: black !important;
+    font-weight: bolder;
+}
+.ant-result-title{
+padding-top: 60px;
+}
+.home-movie-selection{
+    padding-top: 50px;
+}
+.ant-modal-footer{
+    display: none !important;
+}
+.carousel-main{
+    padding-left: 0%;
+}
+.carousel-main img{
+    width: 700px !important;
+}
