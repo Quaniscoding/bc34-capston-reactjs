@@ -10,7 +10,6 @@ export default function Layout() {
       {/* left  */}
       {/* hiện thị content của pages */}
       <Outlet />
-
       {/* right */}
       <Footer />
     </div>

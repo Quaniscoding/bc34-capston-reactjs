@@ -149,6 +149,9 @@ export default function HomeTicketMovie() {
                               <button
                                 type="button"
                                 className="btn btn-outline-light pl-2"
+                                onClick={() =>
+                                  navigate(`/chitietphim/${item.maPhim}`)
+                                }
                               >
                                 Chi tiết phim
                               </button>

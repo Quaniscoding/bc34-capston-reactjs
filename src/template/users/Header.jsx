@@ -7,7 +7,7 @@ import SignUp from "./SignUp";
 export default function Header() {
   return (
     <nav className=" container navbar navbar-expand-lg navbar-light bg-light">
-      <NavLink to="/">
+      <NavLink to="/trangchu">
         {" "}
         <img width={50} src={logo} />{" "}
       </NavLink>

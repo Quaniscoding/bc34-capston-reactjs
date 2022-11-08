@@ -1,0 +1,8 @@
+
+.player-wrapper {
+    padding-top: 15px;
+}
+.react-player{
+    width: 600px !important;
+    height: 300px !important;
+}

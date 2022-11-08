@@ -6,10 +6,11 @@ import { history } from './utils/history';
 import LayoutAdmin from './template/admins/LayoutAdmin';
 import Layout from './template/users/Layout';
 import TrangChu from './pages/TrangChu/TrangChu';
-import TimKiem from './pages/TimKiem/TimKiem';
 import NotFound from './pages/NotFound';
 import LogIn from './template/users/LogIn';
 import SignUp from './template/users/SignUp';
+import ChiTietphim from './components/ChiTietphim';
+import TrangDatVe from './components/TrangDatVe';
 function App() {
   return (
     <div className="App">
@@ -17,11 +18,12 @@ function App() {
         <Routes>
           {/* user */}
           <Route path='/' element={<Layout />}>
-            <Route path='/trangchu' element={<TrangChu />} />
-            <Route path='/timkiem' element={<TimKiem />} />
+            <Route path='trangchu' element={<TrangChu />} />
             <Route path='*' element={<NotFound />} />
             <Route index path='login' element={<LogIn />} />
             <Route path='signup' element={<SignUp />} />
+            <Route path='chitietphim/:maPhim' element={<ChiTietphim />} />
+            <Route path='datve/:maLichChieu' element={<TrangDatVe />} />
           </Route>
           {/* admin */}
           <Route path='/admin' element={<LayoutAdmin />}>
