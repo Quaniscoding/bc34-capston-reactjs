@@ -1,14 +1,15 @@
 import './App.css';
 import 'antd/dist/antd.css';
+import './assets/css/main.css'
 import { Routes, Route, unstable_HistoryRouter as HistoryRouter } from 'react-router-dom';
 import { history } from './utils/history';
-import LayoutAdmin from './templates/admins/LayoutAdmin';
-import Layout from './templates/users/Layout';
+import LayoutAdmin from './template/admins/LayoutAdmin';
+import Layout from './template/users/Layout';
 import TrangChu from './pages/TrangChu/TrangChu';
 import TimKiem from './pages/TimKiem/TimKiem';
 import NotFound from './pages/NotFound';
-
-
+import LogIn from './template/users/LogIn';
+import SignUp from './template/users/SignUp';
 function App() {
   return (
     <div className="App">
@@ -16,12 +17,12 @@ function App() {
         <Routes>
           {/* user */}
           <Route path='/' element={<Layout />}>
-            <Route index path='/' element={<TrangChu />} />
+            <Route path='/trangchu' element={<TrangChu />} />
             <Route path='/timkiem' element={<TimKiem />} />
-
             <Route path='*' element={<NotFound />} />
+            <Route index path='login' element={<LogIn />} />
+            <Route path='signup' element={<SignUp />} />
           </Route>
-
           {/* admin */}
           <Route path='/admin' element={<LayoutAdmin />}>
 

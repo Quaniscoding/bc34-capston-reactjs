@@ -1,0 +1,42 @@
+.main-container{
+    padding-top: 20px;
+    background: url(https://www.cgv.vn/skin/frontend/cgv/default/images/bg_c_bricks.png) repeat-x scroll 0 0 rgba(0, 0, 0, 0);
+}
+.imgPhim{
+    background: url(https://www.cgv.vn/skin/frontend/cgv/default/images/bg-black-transparent.png) repeat scroll 0 0 transparent;
+}
+.slick-dots{
+    display: none;
+}
+.home-movie-selection {
+    margin: 20px 0;
+    width: 100%;
+}
+.home-title {
+    background: url(https://www.cgv.vn/skin/frontend/cgv/default/images/bg-cgv/bg_h3_line.jpg) repeat-x scroll left center rgba(0, 0, 0, 0);
+    height: 60px;
+    text-align: center;
+    width: 100%;
+}  
+.home-title-2 {
+    background: url(https://www.cgv.vn/skin/frontend/cgv/default/images/bg-cgv/bg_h3_line.jpg) repeat-x scroll left center rgba(0, 0, 0, 0);
+    height: 60px;
+    text-align: center;
+    width: 100%;
+} 
+.home-movie-selection .home-title h2 {
+    background: url(https://www.cgv.vn/skin/frontend/cgv/default/images/bg-cgv/h3_movie_selection.gif) no-repeat scroll center center / 406px 41px #FDFCF0;
+    display: inline-block;
+    width: 425px;
+}
+.home-title-2 h2 {
+    /* background: url(https://www.cgv.vn/skin/frontend/cgv/default/images/bg-cgv/h3_movie_selection.gif) no-repeat scroll center center / 406px 41px #FDFCF0; */
+    display: inline-block;
+    width: 425px;
+}
+.owl-dots{
+    display: none;
+}
+.ant-carousel .slick-dots {
+    display: none !important;
+}
