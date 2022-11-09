@@ -1,10 +1,29 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../../assets/imgs/react.png";
-import ModalUser from "../../hoc/ModalUser";
-import LogIn from "./LogIn";
-import SignUp from "./SignUp";
+import Box from "@mui/material/Box";
+import Avatar from "@mui/material/Avatar";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
+import Logout from "@mui/icons-material/Logout";
+import { USER_LOGIN } from "../../utils/constant";
+
 export default function Header() {
+  let navigate = useNavigate();
+  let [reset, setReset] = useState(0);
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   return (
     <nav className=" container navbar navbar-expand-lg navbar-light bg-light">
       <NavLink to="/trangchu">
@@ -24,12 +43,6 @@ export default function Header() {
       </button>
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
         <ul className="navbar-nav mr-auto">
-          <li>
-            <ModalUser lbButton="Đăng nhập" Component={<LogIn />} />
-          </li>
-          <li>
-            <ModalUser lbButton="Đăng ký" Component={<SignUp />} />
-          </li>
           <li className="nav-item active ">
             <NavLink className="nav-link" to="/trangchu">
               {" "}
@@ -50,15 +63,87 @@ export default function Header() {
           </li>
         </ul>
         <div className="form-inline my-2 my-lg-0">
-          <input
-            className="form-control mr-sm-2"
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-          />
-          <button className="btn btn-outline-light my-2 my-sm-0" type="submit">
-            Search
-          </button>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              textAlign: "center",
+            }}
+          >
+            <Tooltip title="Account settings">
+              <IconButton
+                onClick={handleClick}
+                size="small"
+                sx={{ ml: 2 }}
+                aria-controls={open ? "account-menu" : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? "true" : undefined}
+              >
+                <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+              </IconButton>
+            </Tooltip>
+          </Box>
+          <Menu
+            anchorEl={anchorEl}
+            id="account-menu"
+            open={open}
+            onClose={handleClose}
+            onClick={handleClose}
+            PaperProps={{
+              elevation: 0,
+              sx: {
+                overflow: "visible",
+                filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                mt: 1.5,
+                "& .MuiAvatar-root": {
+                  width: 32,
+                  height: 32,
+                  ml: -0.5,
+                  mr: 1,
+                },
+                "&:before": {
+                  content: '""',
+                  display: "block",
+                  position: "absolute",
+                  top: 0,
+                  right: 14,
+                  width: 10,
+                  height: 10,
+                  bgcolor: "background.paper",
+                  transform: "translateY(-50%) rotate(45deg)",
+                  zIndex: 0,
+                },
+              },
+            }}
+            transformOrigin={{ horizontal: "right", vertical: "top" }}
+            anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+          >
+            <MenuItem>
+              <Avatar />
+              <NavLink className="nav-link" to="/login">
+                Đăng Nhập
+              </NavLink>
+            </MenuItem>
+            <MenuItem>
+              <Avatar />
+              <NavLink className="nav-link" to="/signup">
+                Đăng ký
+              </NavLink>
+            </MenuItem>
+            <Divider />
+            <MenuItem
+              onClick={() => {
+                setReset(reset + 1);
+                localStorage.removeItem(USER_LOGIN);
+                navigate(`/trangchu`);
+              }}
+            >
+              <ListItemIcon>
+                <Logout />
+              </ListItemIcon>
+              Đăng xuất
+            </MenuItem>
+          </Menu>
         </div>
       </div>
     </nav>

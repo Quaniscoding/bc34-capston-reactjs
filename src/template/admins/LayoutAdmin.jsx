@@ -1,7 +1,11 @@
-import React from 'react'
+import React from "react";
+import Films from "./Films";
 
 export default function LayoutAdmin() {
   return (
-    <div>LayoutAdmin</div>
-  )
+    <div className="container">
+      LayoutAdmin
+      <Films />
+    </div>
+  );
 }

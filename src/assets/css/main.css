@@ -100,3 +100,9 @@ padding-top: 60px;
 .carousel-main img{
     width: 700px !important;
 }
+.nav-link {
+    display: block;
+    padding: 0.5rem 1rem;
+    color: black !important;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;
+}

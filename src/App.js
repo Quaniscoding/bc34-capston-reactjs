@@ -11,6 +11,7 @@ import LogIn from './template/users/LogIn';
 import SignUp from './template/users/SignUp';
 import ChiTietphim from './components/ChiTietphim';
 import TrangDatVe from './components/TrangDatVe';
+import Films from './template/admins/Films';
 function App() {
   return (
     <div className="App">
@@ -27,7 +28,7 @@ function App() {
           </Route>
           {/* admin */}
           <Route path='/admin' element={<LayoutAdmin />}>
-
+            <Route path='films' element={<Films />} />
           </Route>
         </Routes>
       </HistoryRouter>
