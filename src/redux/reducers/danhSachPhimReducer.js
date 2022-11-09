@@ -26,7 +26,7 @@ export default danhSachPhimReducer.reducer
 
 export const callGetDanhSachPhim = async (dispatch) => {
     try {
-        const apiGetPhim = await http.get("/QuanLyPhim/LayDanhSachPhim?maNhom=GP01")
+        const apiGetPhim = await http.get("/QuanLyPhim/LayDanhSachPhim?maNhom=GP04")
         dispatch(getDanhSachPhim(apiGetPhim.data.content));
     } catch (err) {
         // removeLocal(USER_LOGIN);

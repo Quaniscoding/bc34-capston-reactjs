@@ -2,18 +2,17 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
-import ReactPlayer from "react-player";
 import "../assets/css/embedvideo.css";
 import Embedvideo from "./embedvideo";
-import { USER_LOGIN } from "../utils/constant";
 import moment from "moment/moment";
+import useRoute from "../hooks/useRoute";
 export default function ChiTietPhim() {
   const [dataRap, setDataRap] = useState([]);
   const [dataLichChieu, setLichChieu] = useState([]);
-  let isLogin = localStorage.getItem(USER_LOGIN);
+  const [dataThongTinLichChieu, setDataThongTinLichChieu] = useState([]);
+  const [chiTietPhim, setChiTietPhim] = useState({});
   const params = useParams();
   const navigate = useNavigate();
-  const [chiTietPhim, setChiTietPhim] = useState({});
   const getApiChiTiet = async () => {
     const apiChiTiet = await axios({
       method: "GET",
@@ -25,8 +24,35 @@ export default function ChiTietPhim() {
     });
     setChiTietPhim(apiChiTiet.data.content);
   };
+  const getApiLichChieu = async () => {
+    const apiLichChieu = await axios({
+      method: "GET",
+      url: `https://movienew.cybersoft.edu.vn/api/QuanLyRap/LayThongTinLichChieuPhim?MaPhim=${params.maPhim}`,
+      headers: {
+        TokenCybersoft:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAzNCIsIkhldEhhblN0cmluZyI6IjI3LzA0LzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY4MjU1MzYwMDAwMCIsIm5iZiI6MTY1MzU4NDQwMCwiZXhwIjoxNjgyNzAxMjAwfQ.WXYIKeb4x0tXpYflgrnKFbivOnuUdLmKcgl7Xr0MD3I",
+      },
+    });
+    setDataThongTinLichChieu(
+      apiLichChieu.data.content.heThongRapChieu[0].cumRapChieu[0]
+        .lichChieuPhim[0]
+    );
+  };
 
+  const layLichChieu = (maHeThongRap) => {
+    axios({
+      method: "GET",
+      url: `https://movienew.cybersoft.edu.vn/api/QuanLyRap/LayThongTinLichChieuHeThongRap?maHeThongRap=${maHeThongRap}&maNhom=GP04`,
+      headers: {
+        TokenCybersoft:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAzNCIsIkhldEhhblN0cmluZyI6IjI3LzA0LzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY4MjU1MzYwMDAwMCIsIm5iZiI6MTY1MzU4NDQwMCwiZXhwIjoxNjgyNzAxMjAwfQ.WXYIKeb4x0tXpYflgrnKFbivOnuUdLmKcgl7Xr0MD3I",
+      },
+    }).then((result) => {
+      setLichChieu(result.data.content);
+    });
+  };
   useEffect(() => {
+    getApiLichChieu();
     getApiChiTiet();
     axios({
       method: "GET",
@@ -39,18 +65,6 @@ export default function ChiTietPhim() {
       setDataRap(result.data.content);
     });
   }, [params.maPhim]);
-  const layLichChieu = (maHeThongRap) => {
-    axios({
-      method: "GET",
-      url: `https://movienew.cybersoft.edu.vn/api/QuanLyRap/LayThongTinLichChieuHeThongRap?maHeThongRap=${maHeThongRap}&maNhom=GP01`,
-      headers: {
-        TokenCybersoft:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAzNCIsIkhldEhhblN0cmluZyI6IjI3LzA0LzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY4MjU1MzYwMDAwMCIsIm5iZiI6MTY1MzU4NDQwMCwiZXhwIjoxNjgyNzAxMjAwfQ.WXYIKeb4x0tXpYflgrnKFbivOnuUdLmKcgl7Xr0MD3I",
-      },
-    }).then((result) => {
-      setLichChieu(result.data.content);
-    });
-  };
   return (
     <div className="container">
       <h1>Chi Tiết Phim: {chiTietPhim.tenPhim}</h1>
@@ -69,7 +83,7 @@ export default function ChiTietPhim() {
             type="button"
             class="btn btn-outline-info"
             onClick={() => {
-              navigate(`/datve/${chiTietPhim.maPhim}`);
+              navigate(`/datve/${dataThongTinLichChieu.maLichChieu}`);
             }}
           >
             Đặt vé

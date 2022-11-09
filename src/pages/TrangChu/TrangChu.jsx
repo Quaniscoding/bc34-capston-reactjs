@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Carousel, Card } from "antd";
+import { Carousel } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { callGetDanhSachPhim } from "../../redux/reducers/danhSachPhimReducer";
-import useRoute from "../../hooks/useRoute";
 import { Result } from "antd";
 import { callGetDanhSachBanner } from "../../redux/reducers/bannerReducer.js";
 import { callgetDanhSachThongTinHeThongRap } from "../../redux/reducers/thongTinHeThongRapReducer.js";
@@ -14,44 +13,55 @@ import "owl.carousel/dist/assets/owl.theme.default.css";
 import { USER_LOGIN } from "../../utils/constant";
 import moment from "moment/moment";
 import { MDBRipple } from "mdb-react-ui-kit";
-const { Meta } = Card;
+import useRoute from "../../hooks/useRoute";
 const contentStyle = {
-  // height: "160px",
-  // color: "#4b3e2e",
-  // lineHeight: "160px",
-  // textAlign: "center",
-  // background: "#364d79",
   width: "800px",
 };
 export default function HomeTicketMovie() {
   const [dataRap, setDataRap] = useState([]);
   const [dataLichChieu, setLichChieu] = useState([]);
+  const [dataThongTinLichChieu, setDataThongTinLichChieu] = useState([]);
   let ditpatch = useDispatch();
+  let { params, navigate } = useRoute();
   let timeout = null;
   let isLogin = localStorage.getItem(USER_LOGIN);
   let danhSachPhim = useSelector(
     (state) => state.danhSachPhimReducer.danhSachPhim
   );
   let banner = useSelector((state) => state.bannerReducer.danhSachBanner);
-  let danhSachRap = useSelector(
-    (state) => state.thongTinHeThongRap.danhSachThongTinHeThongRap
-  );
-  let thongTinChieu = useSelector(
-    (state) => state.thongTinChieuHeThongRap.danhSachThongTinChieuHeThongRap
-  );
-  const {
-    params,
-    navigate,
-    searchParams: [searchParams, setSearchParams],
-  } = useRoute();
-  const keyWord = searchParams.has("tenPhim")
-    ? searchParams.get("tenPhim")
-    : "";
   if (timeout != null) {
     clearTimeout(timeout);
   }
+
+  const getApiLichChieu = async () => {
+    const apiLichChieu = await axios({
+      method: "GET",
+      url: `https://movienew.cybersoft.edu.vn/api/QuanLyRap/LayThongTinLichChieuPhim?MaPhim=${params.maPhim}`,
+      headers: {
+        TokenCybersoft:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAzNCIsIkhldEhhblN0cmluZyI6IjI3LzA0LzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY4MjU1MzYwMDAwMCIsIm5iZiI6MTY1MzU4NDQwMCwiZXhwIjoxNjgyNzAxMjAwfQ.WXYIKeb4x0tXpYflgrnKFbivOnuUdLmKcgl7Xr0MD3I",
+      },
+    });
+    setDataThongTinLichChieu(
+      apiLichChieu.data.content.heThongRapChieu[0].cumRapChieu[0]
+        .lichChieuPhim[0]
+    );
+  };
+  const layLichChieu = (maHeThongRap) => {
+    axios({
+      method: "GET",
+      url: `https://movienew.cybersoft.edu.vn/api/QuanLyRap/LayThongTinLichChieuHeThongRap?maHeThongRap=${maHeThongRap}&maNhom=GP04`,
+      headers: {
+        TokenCybersoft:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAzNCIsIkhldEhhblN0cmluZyI6IjI3LzA0LzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY4MjU1MzYwMDAwMCIsIm5iZiI6MTY1MzU4NDQwMCwiZXhwIjoxNjgyNzAxMjAwfQ.WXYIKeb4x0tXpYflgrnKFbivOnuUdLmKcgl7Xr0MD3I",
+      },
+    }).then((result) => {
+      setLichChieu(result.data.content);
+    });
+  };
   useEffect(() => {
     timeout = setTimeout(() => {
+      getApiLichChieu();
       ditpatch(callGetDanhSachPhim);
       ditpatch(callGetDanhSachBanner);
       ditpatch(callgetDanhSachThongTinHeThongRap);
@@ -66,20 +76,8 @@ export default function HomeTicketMovie() {
       }).then((result) => {
         setDataRap(result.data.content);
       });
-    }, 1000);
-  }, [keyWord]);
-  const layLichChieu = (maHeThongRap) => {
-    axios({
-      method: "GET",
-      url: `https://movienew.cybersoft.edu.vn/api/QuanLyRap/LayThongTinLichChieuHeThongRap?maHeThongRap=${maHeThongRap}&maNhom=GP03`,
-      headers: {
-        TokenCybersoft:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAzNCIsIkhldEhhblN0cmluZyI6IjI3LzA0LzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY4MjU1MzYwMDAwMCIsIm5iZiI6MTY1MzU4NDQwMCwiZXhwIjoxNjgyNzAxMjAwfQ.WXYIKeb4x0tXpYflgrnKFbivOnuUdLmKcgl7Xr0MD3I",
-      },
-    }).then((result) => {
-      setLichChieu(result.data.content);
-    });
-  };
+    }, 2000);
+  }, [params.maPhim]);
   return (
     <div className="container main-container">
       {isLogin ? (
@@ -112,6 +110,7 @@ export default function HomeTicketMovie() {
             {danhSachPhim.map((item, index) => {
               return (
                 <MDBRipple
+                  key={index}
                   className="bg-image"
                   rippleTag="div"
                   rippleColor="dark"
@@ -158,6 +157,11 @@ export default function HomeTicketMovie() {
                               <button
                                 type="button"
                                 className="btn btn-outline-light"
+                                onClick={() => {
+                                  navigate(
+                                    `/datve/${dataThongTinLichChieu.maLichChieu}`
+                                  );
+                                }}
                               >
                                 Đặt vé
                               </button>
@@ -183,9 +187,9 @@ export default function HomeTicketMovie() {
       {isLogin ? (
         <div className=" pt-5 text-left row">
           <div className="col-3">
-            {dataRap?.map((item) => {
+            {dataRap?.map((item, index) => {
               return (
-                <h3>
+                <h3 key={index}>
                   <img
                     onClick={() => layLichChieu(item.maHeThongRap)}
                     width={50}
