@@ -10,7 +10,7 @@ const Embedvideo = (props) => {
       <ReactPlayer
         className="react-player"
         url={props.url}
-        width="50%"
+        width="70%"
         height="100%"
       />
     </div>

@@ -13,7 +13,7 @@ import "owl.carousel/dist/assets/owl.theme.default.css";
 import { USER_LOGIN } from "../../utils/constant";
 import moment from "moment/moment";
 import { MDBRipple } from "mdb-react-ui-kit";
-import useRoute from "../../hooks/useRoute";
+import { useNavigate, useParams } from "react-router-dom";
 const contentStyle = {
   width: "800px",
 };
@@ -22,31 +22,19 @@ export default function HomeTicketMovie() {
   const [dataLichChieu, setLichChieu] = useState([]);
   const [dataThongTinLichChieu, setDataThongTinLichChieu] = useState([]);
   let ditpatch = useDispatch();
-  let { params, navigate } = useRoute();
+  const params = useParams();
+  const navigate = useNavigate();
   let timeout = null;
   let isLogin = localStorage.getItem(USER_LOGIN);
   let danhSachPhim = useSelector(
     (state) => state.danhSachPhimReducer.danhSachPhim
   );
+
   let banner = useSelector((state) => state.bannerReducer.danhSachBanner);
   if (timeout != null) {
     clearTimeout(timeout);
   }
 
-  const getApiLichChieu = async () => {
-    const apiLichChieu = await axios({
-      method: "GET",
-      url: `https://movienew.cybersoft.edu.vn/api/QuanLyRap/LayThongTinLichChieuPhim?MaPhim=${params.maPhim}`,
-      headers: {
-        TokenCybersoft:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAzNCIsIkhldEhhblN0cmluZyI6IjI3LzA0LzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY4MjU1MzYwMDAwMCIsIm5iZiI6MTY1MzU4NDQwMCwiZXhwIjoxNjgyNzAxMjAwfQ.WXYIKeb4x0tXpYflgrnKFbivOnuUdLmKcgl7Xr0MD3I",
-      },
-    });
-    setDataThongTinLichChieu(
-      apiLichChieu.data.content.heThongRapChieu[0].cumRapChieu[0]
-        .lichChieuPhim[0]
-    );
-  };
   const layLichChieu = (maHeThongRap) => {
     axios({
       method: "GET",
@@ -58,6 +46,32 @@ export default function HomeTicketMovie() {
     }).then((result) => {
       setLichChieu(result.data.content);
     });
+  };
+  // const layThongTinLichChieu = (maLichChieu) => {
+  //   axios({
+  //     method: "GET",
+  //     url: `https://movienew.cybersoft.edu.vn/api/QuanLyRap/LayThongTinLichChieuPhim?MaPhim=${maLichChieu}`,
+  //     headers: {
+  //       TokenCybersoft:
+  //         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAzNCIsIkhldEhhblN0cmluZyI6IjI3LzA0LzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY4MjU1MzYwMDAwMCIsIm5iZiI6MTY1MzU4NDQwMCwiZXhwIjoxNjgyNzAxMjAwfQ.WXYIKeb4x0tXpYflgrnKFbivOnuUdLmKcgl7Xr0MD3I",
+  //     },
+  //   }).then((result) => {
+  //     setDataThongTinLichChieu(result.data.content);
+  //   });
+  // };
+  const getApiLichChieu = async () => {
+    const apiLichChieu = await axios({
+      method: "GET",
+      url: `https://movienew.cybersoft.edu.vn/api/QuanLyRap/LayThongTinLichChieuPhim?MaPhim=${danhSachPhim.maPhim}`,
+      headers: {
+        TokenCybersoft:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAzNCIsIkhldEhhblN0cmluZyI6IjI3LzA0LzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY4MjU1MzYwMDAwMCIsIm5iZiI6MTY1MzU4NDQwMCwiZXhwIjoxNjgyNzAxMjAwfQ.WXYIKeb4x0tXpYflgrnKFbivOnuUdLmKcgl7Xr0MD3I",
+      },
+    });
+    setDataThongTinLichChieu(
+      apiLichChieu.data.content.heThongRapChieu[0].cumRapChieu[0]
+        .lichChieuPhim[0]
+    );
   };
   useEffect(() => {
     timeout = setTimeout(() => {
@@ -77,7 +91,7 @@ export default function HomeTicketMovie() {
         setDataRap(result.data.content);
       });
     }, 2000);
-  }, [params.maPhim]);
+  }, []);
   return (
     <div className="container main-container">
       {isLogin ? (
@@ -134,20 +148,19 @@ export default function HomeTicketMovie() {
                       >
                         <div className="h-100">
                           <div className="imgPhim">
-                            <h3
+                            <h4
                               className="align-items-center"
                               style={{ color: "turquoise" }}
                             >
                               Tên phim: {item.tenPhim}
-                            </h3>
-
+                            </h4>
                             <h5 className="text-white mb-0">
                               Đánh giá: {item.danhGia} điểm
                             </h5>
                             <div>
                               <button
                                 type="button"
-                                className="btn btn-outline-light pl-2"
+                                className="btn btn-outline-light"
                                 onClick={() =>
                                   navigate(`/chitietphim/${item.maPhim}`)
                                 }
@@ -158,6 +171,7 @@ export default function HomeTicketMovie() {
                                 type="button"
                                 className="btn btn-outline-light"
                                 onClick={() => {
+                                  console.log(item.maPhim);
                                   navigate(
                                     `/datve/${dataThongTinLichChieu.maLichChieu}`
                                   );

@@ -10,7 +10,7 @@ import NotFound from './pages/NotFound';
 import LogIn from './template/users/LogIn';
 import SignUp from './template/users/SignUp';
 import ChiTietphim from './components/ChiTietphim';
-import TrangDatVe from './components/TrangDatVe';
+import TrangDatVe from '../src/components/datVe/TrangDatVe';
 import Films from './template/admins/Films';
 function App() {
   return (

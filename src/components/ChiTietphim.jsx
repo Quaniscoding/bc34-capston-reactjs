@@ -5,8 +5,24 @@ import { useParams, useNavigate } from "react-router-dom";
 import "../assets/css/embedvideo.css";
 import Embedvideo from "./embedvideo";
 import moment from "moment/moment";
-import useRoute from "../hooks/useRoute";
+import { Space, Button, Modal } from "antd";
+import {
+  HomeOutlined,
+  RightOutlined,
+  PrinterOutlined,
+  VideoCameraTwoTone,
+} from "@ant-design/icons";
 export default function ChiTietPhim() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
   const [dataRap, setDataRap] = useState([]);
   const [dataLichChieu, setLichChieu] = useState([]);
   const [dataThongTinLichChieu, setDataThongTinLichChieu] = useState([]);
@@ -67,43 +83,107 @@ export default function ChiTietPhim() {
   }, [params.maPhim]);
   return (
     <div className="container">
-      <h1>Chi Tiết Phim: {chiTietPhim.tenPhim}</h1>
       <div className="row text-left mt-5">
-        <div className="col-4">
-          <img
-            src={chiTietPhim.hinhAnh}
-            style={{ width: "300px", height: "400px" }}
-          />
-        </div>
-        <div className="col-8">
-          <h2>{chiTietPhim.tenPhim}</h2>
-          <p>Đánh giá: {chiTietPhim.danhGia} điểm</p>
-          <p>Mô tả: {chiTietPhim.moTa}</p>
-          <button
-            type="button"
-            class="btn btn-outline-info"
-            onClick={() => {
-              navigate(`/datve/${dataThongTinLichChieu.maLichChieu}`);
-            }}
-          >
-            Đặt vé
-          </button>
-          <button
-            type="button"
-            class="btn btn-outline-secondary"
-            onClick={() => navigate(`/trangchu`)}
-          >
-            Về trang chủ
-          </button>
-        </div>
         <div className="col-12">
-          <Embedvideo url={chiTietPhim.trailer} />
+          <ul className="row">
+            <li style={{ flex: "0 0 auto", width: "5%" }}>
+              <Space>
+                <a href="">
+                  <HomeOutlined
+                    style={{ fontSize: "25px", color: "black" }}
+                    onClick={() => navigate(`/trangchu`)}
+                  />
+                </a>
+                <RightOutlined
+                  style={{ fontSize: "25px", fontWeight: "bold" }}
+                />
+              </Space>
+            </li>
+            <li className="col-9">
+              {" "}
+              <p
+                style={{
+                  gap: "8px",
+                  paddingTop: "3px",
+                  fontWeight: "bold",
+                  textDecoration: "underline",
+                }}
+              >
+                Chi Tiết Phim: {chiTietPhim.tenPhim}
+              </p>
+            </li>
+          </ul>
         </div>
+        <div
+          className="col-12"
+          style={{
+            borderBottom: "2px solid #222",
+            paddingBottom: "10px",
+          }}
+        >
+          <h1>Nội dung phim</h1>
+        </div>
+        <div className="row col-12 pt-4">
+          <div className="col-3">
+            <img
+              src={chiTietPhim.hinhAnh}
+              style={{ width: "200px", height: "250px" }}
+            />
+          </div>
+          <div className="col-9">
+            <h2
+              style={{
+                borderBottom: "1px solid #222",
+              }}
+            >
+              {chiTietPhim.tenPhim}
+            </h2>
+            <p>Đánh giá: {chiTietPhim.danhGia} điểm</p>
+            <p>Mô tả: {chiTietPhim.moTa}</p>
+            <div className="button row">
+              <div style={{ flex: "0 0 auto", width: "15%" }}>
+                <Button
+                  type="default"
+                  onClick={() => {
+                    navigate(`/datve/${dataThongTinLichChieu.maLichChieu}`);
+                  }}
+                >
+                  <Space>
+                    <PrinterOutlined style={{ paddingBottom: "5px" }} />
+                    Đặt vé
+                  </Space>
+                </Button>
+              </div>
+              <div style={{ flex: "0 0 auto", width: "20%" }}>
+                <>
+                  <Button type="default" onClick={showModal}>
+                    <Space>
+                      <VideoCameraTwoTone style={{ paddingBottom: "5px" }} />
+                      Xem trailer
+                    </Space>
+                  </Button>
+                  <Modal
+                    title="Trailer phim"
+                    open={isModalOpen}
+                    onOk={handleOk}
+                    onCancel={handleCancel}
+                    width={650}
+                  >
+                    <div>
+                      <Embedvideo url={chiTietPhim.trailer} />
+                    </div>
+                  </Modal>
+                </>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div className=" pt-5 text-left row">
           <div className="col-3">
-            {dataRap?.map((item) => {
+            {dataRap?.map((item, index) => {
               return (
-                <h3>
+                <h3 key={index}>
                   <img
                     onClick={() => layLichChieu(item.maHeThongRap)}
                     width={50}

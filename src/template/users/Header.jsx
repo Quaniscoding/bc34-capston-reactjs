@@ -11,6 +11,8 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import Logout from "@mui/icons-material/Logout";
 import { USER_LOGIN } from "../../utils/constant";
+import { Space } from "antd";
+import { UserOutlined } from "@ant-design/icons";
 
 export default function Header() {
   let navigate = useNavigate();
@@ -28,7 +30,7 @@ export default function Header() {
     <nav className=" container navbar navbar-expand-lg navbar-light bg-light">
       <NavLink to="/trangchu">
         {" "}
-        <img width={50} src={logo} />{" "}
+        <img width={50} src={logo} alt="" />{" "}
       </NavLink>
       <button
         className="navbar-toggler"
@@ -61,6 +63,18 @@ export default function Header() {
               Phim sắp chiếu
             </NavLink>
           </li>
+          <li className="nav-item active ">
+            <NavLink className="nav-link" to="/">
+              {" "}
+              Liên hệ
+            </NavLink>
+          </li>
+          <li className="nav-item active ">
+            <NavLink className="nav-link" to="/">
+              {" "}
+              Dịch vụ
+            </NavLink>
+          </li>
         </ul>
         <div className="form-inline my-2 my-lg-0">
           <Box
@@ -70,7 +84,7 @@ export default function Header() {
               textAlign: "center",
             }}
           >
-            <Tooltip title="Account settings">
+            <Tooltip title="Tài khoản">
               <IconButton
                 onClick={handleClick}
                 size="small"
@@ -79,7 +93,11 @@ export default function Header() {
                 aria-haspopup="true"
                 aria-expanded={open ? "true" : undefined}
               >
-                <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+                <Avatar sx={{ width: 32, height: 32 }}>
+                  <Space>
+                    <UserOutlined />
+                  </Space>
+                </Avatar>
               </IconButton>
             </Tooltip>
           </Box>
