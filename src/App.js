@@ -30,7 +30,7 @@ function App() {
           </Route>
           {/* admin */}
           <Route path='/admin' element={<LayoutAdmin />}>
-            <Route path='films' element={<Films />} />
+            <Route index path='films' element={<Films />} />
             <Route path='films/themphim' element={<TrangThemPhim />} />
             <Route path='films/capnhatphim/:maPhim' element={<TrangCapNhatPhim />} />
           </Route>

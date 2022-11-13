@@ -20,11 +20,17 @@ export const { getDanhSachPhim } = danhSachPhimReducer.actions
 
 export default danhSachPhimReducer.reducer
 
-export const callGetDanhSachPhim = (keyWord = "") => {
+export const callGetDanhSachPhim = (keyWord) => {
     return async (dispatch) => {
         try {
-            const apiGetPhim = await http.get(`/QuanLyPhim/LayDanhSachPhim?maNhom=GP04&tenPhim=${keyWord}`)
-            dispatch(getDanhSachPhim(apiGetPhim.data.content));
+            if (keyWord == "") {
+                const apiGetPhim = await http.get(`/QuanLyPhim/LayDanhSachPhim?maNhom=GP04`)
+                dispatch(getDanhSachPhim(apiGetPhim.data.content));
+            }
+            else {
+                const apiGetPhim = await http.get(`/QuanLyPhim/LayDanhSachPhim?maNhom=GP04&tenPhim=${keyWord}`)
+                dispatch(getDanhSachPhim(apiGetPhim.data.content));
+            }
         } catch (error) {
             console.log(error)
         }

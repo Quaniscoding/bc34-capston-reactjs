@@ -23,7 +23,7 @@ export default function Films() {
   } = useRoute();
   const keyWord = searchParams.has("tenPhim")
     ? searchParams.get("tenPhim")
-    : "      ";
+    : "";
   let dispatch = useDispatch();
   let navigate = useNavigate();
   let timeout = null;
@@ -40,7 +40,7 @@ export default function Films() {
   useEffect(() => {
     timeout = setTimeout(() => {
       getPhim();
-    }, 1000);
+    }, 500);
   }, [keyWord]);
   return (
     <div className="col-9">
