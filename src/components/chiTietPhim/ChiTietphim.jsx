@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
-import "../assets/css/embedvideo.css";
+import "../../assets/css/embedvideo.css";
 import Embedvideo from "./embedvideo";
 import moment from "moment/moment";
 import { Space, Button, Modal } from "antd";
@@ -156,7 +156,12 @@ export default function ChiTietPhim() {
               </div>
               <div style={{ flex: "0 0 auto", width: "20%" }}>
                 <>
-                  <Button type="default" onClick={showModal}>
+                  <Button
+                    type="default"
+                    onClick={() => {
+                      showModal();
+                    }}
+                  >
                     <Space>
                       <VideoCameraTwoTone style={{ paddingBottom: "5px" }} />
                       Xem trailer
@@ -178,7 +183,6 @@ export default function ChiTietPhim() {
             </div>
           </div>
         </div>
-
         <div className=" pt-5 text-left row">
           <div className="col-3">
             {dataRap?.map((item, index) => {

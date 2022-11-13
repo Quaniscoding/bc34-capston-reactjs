@@ -1,24 +1,27 @@
 import React, { useState } from "react";
-import { Form, Input, Select, Button } from "antd";
+import { Form, Input, Select, Button, Space } from "antd";
+import { ArrowRightOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
 import { callSignUp } from "../../redux/reducers/userReducer";
+import { useNavigate } from "react-router-dom";
 
 const { Option } = Select;
 
 export default function SignUp(props) {
   const dispatch = useDispatch();
-
+  let navigate = useNavigate();
   const onFinish = (values) => {
     dispatch(callSignUp(values));
   };
 
   return (
     <div className="container text-left mt-5">
-      <Form name="register" onFinish={onFinish}>
-        <div>
+      <Form name="register" onFinish={onFinish} className="row">
+        <div className="col-12">
           <h1>Đăng ký</h1>
         </div>
         <Form.Item
+          className="col-7 m-auto p-1"
           name="taiKhoan"
           label="Tài khoản"
           rules={[
@@ -32,6 +35,7 @@ export default function SignUp(props) {
         </Form.Item>
 
         <Form.Item
+          className="col-7 m-auto p-1"
           name="matKhau"
           label="Mật khẩu"
           rules={[
@@ -45,6 +49,7 @@ export default function SignUp(props) {
           <Input />
         </Form.Item>
         <Form.Item
+          className="col-7 m-auto p-1"
           name="email"
           label="E-mail"
           rules={[
@@ -61,6 +66,7 @@ export default function SignUp(props) {
           <Input />
         </Form.Item>
         <Form.Item
+          className="col-7 m-auto p-1"
           name="soDt"
           label="Điện thoại"
           rules={[
@@ -73,6 +79,7 @@ export default function SignUp(props) {
           <Input />
         </Form.Item>
         <Form.Item
+          className="col-7 m-auto p-1"
           name="maNhom"
           label="Mã Nhóm"
           rules={[
@@ -85,6 +92,7 @@ export default function SignUp(props) {
           <Input />
         </Form.Item>
         <Form.Item
+          className="col-7 m-auto p-1"
           name="hoTen"
           label="Họ tên"
           rules={[
@@ -101,6 +109,17 @@ export default function SignUp(props) {
           <Button type="primary" htmlType="submit">
             Đăng ký
           </Button>
+        </Form.Item>
+        <Form.Item>
+          <span> Bạn đã có tài khoản?</span>
+          <a
+            onClick={() => {
+              navigate("/login");
+            }}
+            style={{ color: "Highlight" }}
+          >
+            <span> Đăng nhập</span>
+          </a>
         </Form.Item>
       </Form>
     </div>

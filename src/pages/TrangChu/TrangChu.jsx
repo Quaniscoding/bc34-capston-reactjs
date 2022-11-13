@@ -13,69 +13,45 @@ import "owl.carousel/dist/assets/owl.theme.default.css";
 import { USER_LOGIN } from "../../utils/constant";
 import moment from "moment/moment";
 import { MDBRipple } from "mdb-react-ui-kit";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { getStringLocal } from "../../utils/config";
+
 const contentStyle = {
   width: "800px",
 };
 export default function HomeTicketMovie() {
+  let isLogin = getStringLocal(USER_LOGIN);
   const [dataRap, setDataRap] = useState([]);
   const [dataLichChieu, setLichChieu] = useState([]);
-  const [dataThongTinLichChieu, setDataThongTinLichChieu] = useState([]);
+
   let ditpatch = useDispatch();
-  const params = useParams();
   const navigate = useNavigate();
   let timeout = null;
-  let isLogin = localStorage.getItem(USER_LOGIN);
   let danhSachPhim = useSelector(
     (state) => state.danhSachPhimReducer.danhSachPhim
   );
-
   let banner = useSelector((state) => state.bannerReducer.danhSachBanner);
   if (timeout != null) {
     clearTimeout(timeout);
   }
-
-  const layLichChieu = (maHeThongRap) => {
-    axios({
-      method: "GET",
-      url: `https://movienew.cybersoft.edu.vn/api/QuanLyRap/LayThongTinLichChieuHeThongRap?maHeThongRap=${maHeThongRap}&maNhom=GP04`,
-      headers: {
-        TokenCybersoft:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAzNCIsIkhldEhhblN0cmluZyI6IjI3LzA0LzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY4MjU1MzYwMDAwMCIsIm5iZiI6MTY1MzU4NDQwMCwiZXhwIjoxNjgyNzAxMjAwfQ.WXYIKeb4x0tXpYflgrnKFbivOnuUdLmKcgl7Xr0MD3I",
-      },
-    }).then((result) => {
-      setLichChieu(result.data.content);
-    });
-  };
-  // const layThongTinLichChieu = (maLichChieu) => {
-  //   axios({
-  //     method: "GET",
-  //     url: `https://movienew.cybersoft.edu.vn/api/QuanLyRap/LayThongTinLichChieuPhim?MaPhim=${maLichChieu}`,
-  //     headers: {
-  //       TokenCybersoft:
-  //         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAzNCIsIkhldEhhblN0cmluZyI6IjI3LzA0LzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY4MjU1MzYwMDAwMCIsIm5iZiI6MTY1MzU4NDQwMCwiZXhwIjoxNjgyNzAxMjAwfQ.WXYIKeb4x0tXpYflgrnKFbivOnuUdLmKcgl7Xr0MD3I",
-  //     },
-  //   }).then((result) => {
-  //     setDataThongTinLichChieu(result.data.content);
-  //   });
-  // };
-  const getApiLichChieu = async () => {
-    const apiLichChieu = await axios({
-      method: "GET",
-      url: `https://movienew.cybersoft.edu.vn/api/QuanLyRap/LayThongTinLichChieuPhim?MaPhim=${danhSachPhim.maPhim}`,
-      headers: {
-        TokenCybersoft:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAzNCIsIkhldEhhblN0cmluZyI6IjI3LzA0LzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY4MjU1MzYwMDAwMCIsIm5iZiI6MTY1MzU4NDQwMCwiZXhwIjoxNjgyNzAxMjAwfQ.WXYIKeb4x0tXpYflgrnKFbivOnuUdLmKcgl7Xr0MD3I",
-      },
-    });
-    setDataThongTinLichChieu(
-      apiLichChieu.data.content.heThongRapChieu[0].cumRapChieu[0]
-        .lichChieuPhim[0]
-    );
+  const layLichChieu = async (maHeThongRap) => {
+    try {
+      await axios({
+        method: "GET",
+        url: `https://movienew.cybersoft.edu.vn/api/QuanLyRap/LayThongTinLichChieuHeThongRap?maHeThongRap=${maHeThongRap}&maNhom=GP04`,
+        headers: {
+          TokenCybersoft:
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAzNCIsIkhldEhhblN0cmluZyI6IjI3LzA0LzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY4MjU1MzYwMDAwMCIsIm5iZiI6MTY1MzU4NDQwMCwiZXhwIjoxNjgyNzAxMjAwfQ.WXYIKeb4x0tXpYflgrnKFbivOnuUdLmKcgl7Xr0MD3I",
+        },
+      }).then((result) => {
+        setLichChieu(result.data.content);
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
   useEffect(() => {
     timeout = setTimeout(() => {
-      getApiLichChieu();
       ditpatch(callGetDanhSachPhim);
       ditpatch(callGetDanhSachBanner);
       ditpatch(callgetDanhSachThongTinHeThongRap);
@@ -90,7 +66,7 @@ export default function HomeTicketMovie() {
       }).then((result) => {
         setDataRap(result.data.content);
       });
-    }, 2000);
+    }, 1000);
   }, []);
   return (
     <div className="container main-container">
@@ -167,15 +143,13 @@ export default function HomeTicketMovie() {
                               >
                                 Chi tiết phim
                               </button>
+                              <> </>
                               <button
                                 type="button"
                                 className="btn btn-outline-light"
-                                onClick={() => {
-                                  console.log(item.maPhim);
-                                  navigate(
-                                    `/datve/${dataThongTinLichChieu.maLichChieu}`
-                                  );
-                                }}
+                                onClick={() =>
+                                  navigate(`/chitietphim/${item.maPhim}`)
+                                }
                               >
                                 Đặt vé
                               </button>
@@ -196,6 +170,13 @@ export default function HomeTicketMovie() {
             status="404"
             title="Bạn phải đăng nhập để thấy danh sách phim"
           />
+          <button
+            onClick={() => {
+              navigate("/login");
+            }}
+          >
+            Đăng nhập
+          </button>
         </div>
       )}
       {isLogin ? (
@@ -205,7 +186,9 @@ export default function HomeTicketMovie() {
               return (
                 <h3 key={index}>
                   <img
-                    onClick={() => layLichChieu(item.maHeThongRap)}
+                    onClick={() => {
+                      layLichChieu(item.maHeThongRap);
+                    }}
                     width={50}
                     src={item.logo}
                   />
@@ -234,7 +217,6 @@ export default function HomeTicketMovie() {
                                   let ngayChieu = new Date(
                                     itemLichChieu.ngayChieuGioChieu
                                   );
-
                                   return (
                                     <>
                                       {ngayChieu >= dateNow &&

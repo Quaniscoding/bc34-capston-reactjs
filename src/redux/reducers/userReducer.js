@@ -40,3 +40,28 @@ export const callSignUp = (userSignUp) => async () => {
         alert("Không đăng ký được !");
     }
 }
+export const callUploadPhim = (formData) => async () => {
+    try {
+        const apiUpload = await http.post("/QuanLyPhim/ThemPhimUploadHinh", formData);
+        history.push("/admin/films")
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export const callUpdatePhim = (formData) => async () => {
+    try {
+        const apiUpdate = await http.post("/QuanLyPhim/CapNhatPhimUpload", formData);
+        history.push("/admin/films")
+    } catch (err) {
+        console.log(err);
+    }
+}
+export const callDeletePhim = (maPhim) => async () => {
+    try {
+        const apiUpdate = await http.delete(`/QuanLyPhim/XoaPhim?MaPhim=${maPhim}`);
+        history.push("/admin/films")
+    } catch (err) {
+        console.log(err);
+    }
+}

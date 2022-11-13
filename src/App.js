@@ -9,9 +9,11 @@ import TrangChu from './pages/TrangChu/TrangChu';
 import NotFound from './pages/NotFound';
 import LogIn from './template/users/LogIn';
 import SignUp from './template/users/SignUp';
-import ChiTietphim from './components/ChiTietphim';
 import TrangDatVe from '../src/components/datVe/TrangDatVe';
 import Films from './template/admins/Films';
+import TrangThemPhim from './template/admins/TrangThemPhim';
+import TrangCapNhatPhim from './template/admins/TrangCapNhatPhim';
+import ChiTietPhim from './components/chiTietPhim/ChiTietphim';
 function App() {
   return (
     <div className="App">
@@ -23,12 +25,14 @@ function App() {
             <Route path='*' element={<NotFound />} />
             <Route index path='login' element={<LogIn />} />
             <Route path='signup' element={<SignUp />} />
-            <Route path='chitietphim/:maPhim' element={<ChiTietphim />} />
+            <Route path='chitietphim/:maPhim' element={<ChiTietPhim />} />
             <Route path='datve/:maLichChieu' element={<TrangDatVe />} />
           </Route>
           {/* admin */}
           <Route path='/admin' element={<LayoutAdmin />}>
             <Route path='films' element={<Films />} />
+            <Route path='films/themphim' element={<TrangThemPhim />} />
+            <Route path='films/capnhatphim/:maPhim' element={<TrangCapNhatPhim />} />
           </Route>
         </Routes>
       </HistoryRouter>

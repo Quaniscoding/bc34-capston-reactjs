@@ -2,7 +2,7 @@
 
 import React from "react";
 import ReactPlayer from "react-player";
-import "../assets/css/embedvideo.css";
+import "../../assets/css/embedvideo.css";
 
 const Embedvideo = (props) => {
   return (

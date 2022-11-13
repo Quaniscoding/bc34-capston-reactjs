@@ -1,11 +1,12 @@
 import React from "react";
-import Films from "./Films";
+import HeaderAdmin from "./HeaderAdmin";
+import { Outlet } from "react-router-dom";
 
 export default function LayoutAdmin() {
   return (
-    <div className="container">
-      LayoutAdmin
-      <Films />
+    <div className="row">
+      <HeaderAdmin />
+      <Outlet />
     </div>
   );
 }

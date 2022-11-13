@@ -1,10 +1,13 @@
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import { Space } from "antd";
+import { Button, Result, Space } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { callGetDanhSachPhim } from "../../redux/reducers/danhSachPhimReducer";
+import { callGetDanhSachPhim } from "../../redux/reducers/danhSachPhimSearch";
 import { USER_LOGIN } from "../../utils/constant";
+import useRoute from "../../hooks/useRoute";
+import { removeLocal } from "../../utils/config";
+import { NavLink, useNavigate } from "react-router-dom";
+import { callDeletePhim } from "../../redux/reducers/userReducer";
 function getItem(label, key, icon, children, type) {
   return {
     key,
@@ -15,9 +18,14 @@ function getItem(label, key, icon, children, type) {
   };
 }
 export default function Films() {
-  const navigate = useNavigate();
-
-  let ditpatch = useDispatch();
+  const {
+    searchParams: [searchParams, setSearchParams],
+  } = useRoute();
+  const keyWord = searchParams.has("tenPhim")
+    ? searchParams.get("tenPhim")
+    : "      ";
+  let dispatch = useDispatch();
+  let navigate = useNavigate();
   let timeout = null;
   let isLogin = localStorage.getItem(USER_LOGIN);
   let danhSachPhim = useSelector(
@@ -26,74 +34,22 @@ export default function Films() {
   if (timeout != null) {
     clearTimeout(timeout);
   }
+  const getPhim = async () => {
+    dispatch(callGetDanhSachPhim(keyWord));
+  };
   useEffect(() => {
     timeout = setTimeout(() => {
-      ditpatch(callGetDanhSachPhim);
+      getPhim();
     }, 1000);
-  }, []);
+  }, [keyWord]);
   return (
-    <div>
+    <div className="col-9">
       {isLogin ? (
         <div className="container">
-          <nav className="navbar navbar-expand-sm navbar-dark">
-            <a className="navbar-brand" href="#">
-              Quản lý
-            </a>
-            <button
-              className="navbar-toggler d-lg-none"
-              type="button"
-              data-toggle="collapse"
-              data-target="#collapsibleNavId"
-              aria-controls="collapsibleNavId"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-            />
-            <div className="collapse navbar-collapse" id="collapsibleNavId">
-              <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
-                <li className="nav-item active">
-                  <a className="nav-link" href="user">
-                    User
-                  </a>
-                </li>
-
-                <li className="nav-item dropdown">
-                  <a
-                    className="nav-link dropdown-toggle"
-                    href="#"
-                    id="dropdownId"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    Films
-                  </a>
-                  <div className="dropdown-menu" aria-labelledby="dropdownId">
-                    <li className="nav-item active">
-                      <a className="nav-link" href="films">
-                        Film
-                      </a>
-                    </li>
-                    <li className="nav-item active">
-                      <a className="nav-link" href="films/addnews">
-                        Add Film
-                      </a>
-                    </li>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </nav>
-          <header className="display-4 my-4">Quản lý phim</header>
-          {/* Phan tab menu */}
           <ul className="nav nav-tabs" role="tablist">
             <li className="nav-item">
-              <a
-                className="nav-link active"
-                href="#DanhSachNguoiDung"
-                role="tab"
-                data-toggle="tab"
-              >
-                Danh sách người dùng
+              <a className="nav-link active" role="tab" data-toggle="tab">
+                Danh sách chi tiết phim
               </a>
             </li>
           </ul>
@@ -101,34 +57,22 @@ export default function Films() {
           <div className="tab-content">
             <div role="tabpanel" className="tab-pane in active">
               <div className="row">
-                <button
-                  className="btn btn-success col-2"
-                  onClick={() => {
-                    navigate("/user/addnews");
-                  }}
-                >
-                  <i className="fa fa-plus mr-1" />
-                  Thêm phim
-                </button>
-                <div className="col-12">
-                  <div className="input-group mb-3">
+                <nav className="navbar navbar-light bg-light">
+                  <form className="form-inline">
                     <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Nhập từ khóa"
-                      aria-label="Recipient's username"
-                      aria-describedby="basic-addon2"
+                      className="form-control mr-sm-2"
+                      placeholder="Nhập tên phim"
+                      value={keyWord}
+                      onChange={(event) => {
+                        let { value } = event.target;
+                        setSearchParams({ tenPhim: value });
+                      }}
                     />
-                    <div className="input-group-append">
-                      <span className="input-group-text" id="basic-addon2">
-                        <i className="fa fa-search" />
-                      </span>
-                    </div>
-                  </div>
-                </div>
+                  </form>
+                </nav>
               </div>
               <div className="clear-fix" />
-              <div className="tblNguoiDung" id="tblNguoiDung">
+              <div>
                 <table className="table table-bordered">
                   <thead>
                     <tr>
@@ -154,12 +98,28 @@ export default function Films() {
                           <th>{item.tenPhim}</th>
                           <th>{item.moTa}</th>
                           <th>
-                            <button>
+                            <button
+                              onClick={() => {
+                                navigate(
+                                  `/admin/films/capnhatphim/${item.maPhim}`
+                                );
+                              }}
+                            >
                               <Space>
                                 <EditOutlined />
                               </Space>
                             </button>
-                            <button>
+                            <button
+                              onClick={() => {
+                                if (
+                                  window.confirm(
+                                    `Bạn có chắc muốn xóa phim ${item.tenPhim} hay không`
+                                  )
+                                ) {
+                                  dispatch(callDeletePhim(item.maPhim));
+                                }
+                              }}
+                            >
                               <Space>
                                 <DeleteOutlined />
                               </Space>
@@ -177,23 +137,28 @@ export default function Films() {
           <div className="modal fade" id="myModal">
             <div className="modal-dialog">
               <div className="modal-content">
-                {/* Modal Header */}
                 <div className="modal-header">
                   <h4 className="modal-title">Modal Heading</h4>
                   <button type="button" className="close" data-dismiss="modal">
                     ×
                   </button>
                 </div>
-                {/* Modal body */}
-
-                {/* Modal footer */}
                 <div className="modal-footer" />
               </div>
             </div>
           </div>
         </div>
       ) : (
-        ""
+        <Result
+          subTitle="Bạn phải đăng nhập để quản lý danh sách phim !"
+          extra={
+            <Button type="dashed">
+              <NavLink className="pb-2" to="/login">
+                Đăng Nhập
+              </NavLink>
+            </Button>
+          }
+        />
       )}
     </div>
   );
