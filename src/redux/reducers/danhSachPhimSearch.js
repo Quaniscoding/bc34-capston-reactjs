@@ -3,7 +3,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { http } from '../../utils/baseUrl';
 const initialState = {
-    danhSachPhim: []
+    danhSachPhim: [],
 }
 
 const danhSachPhimReducer = createSlice({
@@ -15,7 +15,6 @@ const danhSachPhimReducer = createSlice({
         }
     }
 });
-
 export const { getDanhSachPhim } = danhSachPhimReducer.actions
 
 export default danhSachPhimReducer.reducer

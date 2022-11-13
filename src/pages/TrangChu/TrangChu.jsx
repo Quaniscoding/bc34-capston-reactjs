@@ -23,7 +23,6 @@ export default function HomeTicketMovie() {
   let isLogin = getStringLocal(USER_LOGIN);
   const [dataRap, setDataRap] = useState([]);
   const [dataLichChieu, setLichChieu] = useState([]);
-
   let ditpatch = useDispatch();
   const navigate = useNavigate();
   let timeout = null;

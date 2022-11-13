@@ -1,22 +1,13 @@
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Button, Result, Space } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { callGetDanhSachPhim } from "../../redux/reducers/danhSachPhimSearch";
 import { USER_LOGIN } from "../../utils/constant";
 import useRoute from "../../hooks/useRoute";
-import { removeLocal } from "../../utils/config";
+import "../../assets/css/main.css";
 import { NavLink, useNavigate } from "react-router-dom";
 import { callDeletePhim } from "../../redux/reducers/userReducer";
-function getItem(label, key, icon, children, type) {
-  return {
-    key,
-    icon,
-    children,
-    label,
-    type,
-  };
-}
 export default function Films() {
   const {
     searchParams: [searchParams, setSearchParams],
@@ -98,32 +89,34 @@ export default function Films() {
                           <th>{item.tenPhim}</th>
                           <th>{item.moTa}</th>
                           <th>
-                            <button
-                              onClick={() => {
-                                navigate(
-                                  `/admin/films/capnhatphim/${item.maPhim}`
-                                );
-                              }}
-                            >
-                              <Space>
-                                <EditOutlined />
-                              </Space>
-                            </button>
-                            <button
-                              onClick={() => {
-                                if (
-                                  window.confirm(
-                                    `Bạn có chắc muốn xóa phim ${item.tenPhim} hay không`
-                                  )
-                                ) {
-                                  dispatch(callDeletePhim(item.maPhim));
-                                }
-                              }}
-                            >
-                              <Space>
-                                <DeleteOutlined />
-                              </Space>
-                            </button>
+                            <Space>
+                              <EditOutlined
+                                onClick={() => {
+                                  navigate(
+                                    `/admin/films/capnhatphim/${item.maPhim}`
+                                  );
+                                }}
+                                style={{
+                                  color: "green",
+                                  paddingRight: "2px",
+                                  fontSize: "20px",
+                                }}
+                              />
+                            </Space>
+                            <Space>
+                              <DeleteOutlined
+                                style={{ color: "red", fontSize: "20px" }}
+                                onClick={() => {
+                                  if (
+                                    window.confirm(
+                                      `Bạn có chắc muốn xóa phim ${item.tenPhim} hay không`
+                                    )
+                                  ) {
+                                    dispatch(callDeletePhim(item.maPhim));
+                                  }
+                                }}
+                              />
+                            </Space>
                           </th>
                         </tr>
                       );

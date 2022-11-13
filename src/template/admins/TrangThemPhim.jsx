@@ -1,4 +1,12 @@
-import { Button, DatePicker, Form, Input, InputNumber, Switch } from "antd";
+import {
+  Button,
+  DatePicker,
+  Form,
+  Input,
+  InputNumber,
+  Switch,
+  notification,
+} from "antd";
 import { Formik, useFormik } from "formik";
 import moment from "moment";
 import React, { useState } from "react";
@@ -18,7 +26,6 @@ export default function TrangThemPhim() {
       hot: false,
       danhGia: 0,
       hinhAnh: {},
-      // maNhom: "GP04",
     },
     onSubmit: (values) => {
       values.maNhom = "GP04";
@@ -31,7 +38,6 @@ export default function TrangThemPhim() {
         }
       }
       ditpatch(callUploadPhim(formData));
-      console.log(formData.get("maNhom"));
     },
   });
   const [componentSize, setComponentSize] = useState("Large");

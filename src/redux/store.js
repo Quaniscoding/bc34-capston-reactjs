@@ -6,6 +6,7 @@ import thongTinChieuHeThongRap from './reducers/layThongTinChieuHeThongRap'
 import thongTinHeThongRap from './reducers/thongTinHeThongRapReducer'
 import thongTinLichChieuPhim from './reducers/thongTinLichChieuPhim'
 import danhSachPhimSearch from './reducers/danhSachPhimSearch'
+import danhSachPhimUpdate from './reducers/danhSachPhimUpdate'
 export const store = configureStore({
   reducer: {
     danhSachPhimReducer,
@@ -13,6 +14,7 @@ export const store = configureStore({
     thongTinChieuHeThongRap,
     thongTinHeThongRap,
     thongTinLichChieuPhim,
-    danhSachPhimSearch
+    danhSachPhimSearch,
+    danhSachPhimUpdate
   },
 })

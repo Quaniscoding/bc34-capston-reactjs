@@ -1,7 +1,4 @@
-//rxslice
-
 import { createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
 import { http } from '../../utils/baseUrl';
 import { removeLocal } from '../../utils/config';
 import { USER_LOGIN } from '../../utils/constant';
@@ -29,6 +26,6 @@ export const callGetDanhSachPhim = async (dispatch) => {
         const apiGetPhim = await http.get("/QuanLyPhim/LayDanhSachPhim?maNhom=GP04")
         dispatch(getDanhSachPhim(apiGetPhim.data.content));
     } catch (err) {
-        // removeLocal(USER_LOGIN);
+        removeLocal(USER_LOGIN);
     }
 }
