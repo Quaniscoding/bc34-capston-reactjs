@@ -33,6 +33,6 @@ export const callGetDanhSachBanner = async (ditpatch) => {
         })
         ditpatch(getDanhSachBanner(apiGetBanner.data.content))
     } catch (err) {
-        removeLocal(USER_LOGIN)
+        console.log(err);
     }
 }

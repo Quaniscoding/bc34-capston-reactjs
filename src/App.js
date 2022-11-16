@@ -14,6 +14,7 @@ import Films from './template/admins/Films';
 import TrangThemPhim from './template/admins/TrangThemPhim';
 import TrangCapNhatPhim from './template/admins/TrangCapNhatPhim';
 import ChiTietPhim from './components/chiTietPhim/ChiTietphim';
+import InfoUser from './template/users/InfoUser';
 function App() {
   return (
     <div className="App">
@@ -25,6 +26,7 @@ function App() {
             <Route path='*' element={<NotFound />} />
             <Route index path='login' element={<LogIn />} />
             <Route path='signup' element={<SignUp />} />
+            <Route path='infousers' element={<InfoUser />} />
             <Route path='chitietphim/:maPhim' element={<ChiTietPhim />} />
             <Route path='datve/:maLichChieu' element={<TrangDatVe />} />
           </Route>

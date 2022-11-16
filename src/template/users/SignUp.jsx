@@ -17,7 +17,7 @@ export default function SignUp(props) {
   return (
     <div className="container text-left mt-5">
       <Form name="register" onFinish={onFinish} className="row">
-        <div className="col-12">
+        <div className="col-12 text-center">
           <h1>Đăng ký</h1>
         </div>
         <Form.Item
@@ -105,12 +105,12 @@ export default function SignUp(props) {
           <Input />
         </Form.Item>
 
-        <Form.Item>
+        <Form.Item className="col-7 m-auto p-1">
           <Button type="primary" htmlType="submit">
             Đăng ký
           </Button>
         </Form.Item>
-        <Form.Item>
+        <Form.Item className="col-7 m-auto p-1">
           <span> Bạn đã có tài khoản?</span>
           <a
             onClick={() => {

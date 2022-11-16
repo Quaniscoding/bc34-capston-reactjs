@@ -42,6 +42,15 @@ export default function HeaderAdmin() {
         </MenuItem>
       ),
       getItem(
+        "Thông tin cá nhân",
+        "1b",
+        <MenuItem>
+          <NavLink className="nav-link" to="/infousers">
+            Thông tin cá nhân
+          </NavLink>
+        </MenuItem>
+      ),
+      getItem(
         "Đăng xuất",
         "1c",
         <MenuItem>

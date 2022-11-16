@@ -148,6 +148,12 @@ export default function Header() {
                 Đăng ký
               </NavLink>
             </MenuItem>
+            <MenuItem>
+              <Avatar />
+              <NavLink className="nav-link" to="/infousers">
+                Thông tin người dùng
+              </NavLink>
+            </MenuItem>
             <Divider />
             <MenuItem
               onClick={() => {

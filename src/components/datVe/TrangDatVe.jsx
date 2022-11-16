@@ -1,15 +1,39 @@
+import {
+  CheckOutlined,
+  CloseOutlined,
+  VerifiedUserOutlined,
+} from "@mui/icons-material";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { USER_LOGIN } from "../../utils/constant";
 import "../../assets/css/main.css";
-import { Table } from "antd";
-export default function TrangDatVe() {
+import _ from "lodash";
+import { ThongTinDatVe } from "../../_core/models/ThongTinDatVe";
+import { datVeXemPhim } from "../../redux/reducers/datVe/DatVe";
+import { getStringLocal } from "../../utils/config";
+import { USER_LOGIN } from "../../utils/constant";
+import { Tabs } from "antd";
+import moment from "moment";
+import Item from "antd/lib/list/Item";
+import { Button, notification } from "antd";
+function TrangDatVe() {
+  const openNotification = () => {
+    notification.open({
+      message: "Bạn đã đặt vé thành công !",
+      description: "Đang chuyển hướng đến trang chủ ",
+      onClick: () => {},
+    });
+  };
+  let dispatch = useDispatch();
+  const [dataUser, setDataUser] = useState([]);
   const [dataPhongVe, setDataPhongVe] = useState([]);
-  // console.log(dataPhongVe);
   const params = useParams();
   let timeout = null;
-  let isLogin = localStorage.getItem(USER_LOGIN);
+  let danhSachGheDangDat = useSelector(
+    (state) => state.QuanLyDatVeReducer.danhSachGheDangDat
+  );
+
   const layDataPhongVe = async () => {
     try {
       const apiDataPhongVe = await axios({
@@ -20,7 +44,7 @@ export default function TrangDatVe() {
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAzNCIsIkhldEhhblN0cmluZyI6IjI3LzA0LzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY4MjU1MzYwMDAwMCIsIm5iZiI6MTY1MzU4NDQwMCwiZXhwIjoxNjgyNzAxMjAwfQ.WXYIKeb4x0tXpYflgrnKFbivOnuUdLmKcgl7Xr0MD3I",
         },
       });
-      setDataPhongVe(apiDataPhongVe.data.content.danhSachGhe);
+      setDataPhongVe(apiDataPhongVe.data.content);
     } catch (error) {
       console.log(error);
     }
@@ -31,126 +55,297 @@ export default function TrangDatVe() {
   useEffect(() => {
     timeout = setTimeout(() => {
       layDataPhongVe();
+      datVeXemPhim();
+      axios({
+        method: "POST",
+        url: "https://movienew.cybersoft.edu.vn/api/QuanLyNguoiDung/ThongTinTaiKhoan",
+        headers: {
+          TokenCybersoft:
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAzNCIsIkhldEhhblN0cmluZyI6IjI3LzA0LzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY4MjU1MzYwMDAwMCIsIm5iZiI6MTY1MzU4NDQwMCwiZXhwIjoxNjgyNzAxMjAwfQ.WXYIKeb4x0tXpYflgrnKFbivOnuUdLmKcgl7Xr0MD3I",
+          Authorization: `Bearer ${getStringLocal(USER_LOGIN)}`,
+        },
+      }).then((res) => {
+        setDataUser(res.data.content);
+      });
     }, 1000);
   }, [params.maLichChieu]);
-
+  const renderGhe = () => {
+    let danhSachGhe = dataPhongVe.danhSachGhe;
+    return danhSachGhe?.map((ghe, index) => {
+      let gheVip = ghe.loaiGhe === "Vip" ? "gheVip" : "";
+      let gheDaDat = ghe.loaiGhe === true ? "gheDaDat" : "";
+      let gheDangDat = "";
+      let indexGheDangDat = danhSachGheDangDat.findIndex(
+        (gheDangDat) => gheDangDat.maGhe === ghe.maGhe
+      );
+      if (indexGheDangDat != -1) {
+        gheDaDat = "gheDangDat";
+      }
+      let gheDaDuocDat = "";
+      if (dataUser.taiKhoan === ghe.taiKhoanNguoiDat) {
+        gheDaDuocDat = "gheDaDuocDat";
+      }
+      return (
+        <Fragment key={index}>
+          <button
+            onClick={() => {
+              dispatch({
+                type: "DAT_VE",
+                gheDuocChon: ghe,
+              });
+            }}
+            className={`text-center ghe ${gheVip}  ${gheDaDat} ${gheDangDat} ${gheDaDuocDat}`}
+            disabled={ghe.daDat}
+            key={index}
+          >
+            {ghe.daDat ? (
+              gheDaDat != "" ? (
+                <VerifiedUserOutlined />
+              ) : (
+                <CloseOutlined
+                  style={{ marginBottom: 7.5, fontWeight: "bold" }}
+                />
+              )
+            ) : (
+              ghe.stt
+            )}
+          </button>
+          {(index + 1) % 16 === 0 ? <br /> : ""}
+        </Fragment>
+      );
+    });
+  };
   return (
-    <div
-      className="bookingMovie"
-      style={{
-        width: "100%",
-        height: "100%",
-        backgroundSize: "100%",
-      }}
-    >
-      <div
-        style={{
-          backgroundColor: "#cdcdc3",
-        }}
-      >
-        <div className="container">
+    <div className="container min-h-screen mt-2">
+      <div className="grid grid-cols-12">
+        <div className="col-span-8">
+          <div className="flex flex-col justify-center mt-5">
+            <div
+              className="bg-black"
+              style={{ width: "80%", height: "15" }}
+            ></div>
+            <div className="trapezoid" style={{ height: "15px" }}>
+              <h3 className="text-black mt-3 text-center">Màn hình</h3>
+            </div>
+            <div>{renderGhe()}</div>
+          </div>
+          <div className="mt-5 flex justify-content-center">
+            <table className="table" style={{ border: "none" }}>
+              <thead>
+                <tr>
+                  <td>Ghế chưa đặt</td>
+                  <td>Ghế đang đặt</td>
+                  <td>Ghế vip</td>
+                  <td>Ghế đã đặt</td>
+                  <td>Ghế bạn đặt</td>
+                </tr>
+              </thead>
+              <tbody className=" divide-y divide-gray-200">
+                <tr>
+                  <td>
+                    <button className="ghe text-center">
+                      <CheckOutlined />
+                    </button>
+                  </td>
+                  <td>
+                    <button className="ghe gheDangDat text-center">
+                      <CheckOutlined />
+                    </button>
+                  </td>
+                  <td>
+                    <button className="ghe gheVip text-center">
+                      <CheckOutlined />
+                    </button>
+                  </td>
+                  <td>
+                    <button disabled className="ghe text-center">
+                      <CheckOutlined />
+                    </button>
+                  </td>
+                  <td>
+                    <button className="ghe gheDaDuocDat text-center">
+                      <CloseOutlined />
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div className="col-span-4 pl-3">
+          <h3 className="text-center text-red">
+            {danhSachGheDangDat
+              ?.reduce((tongTien, ghe, index) => {
+                return (tongTien += ghe.giaVe);
+              }, 0)
+              .toLocaleString()}{" "}
+            đ
+          </h3>
+          <hr />
+          <h3 className="text-left">
+            Tên phim: {dataPhongVe?.thongTinPhim?.tenPhim}
+          </h3>
+
+          <p className="text-left">
+            Địa điểm: {dataPhongVe?.thongTinPhim?.tenCumRap}
+          </p>
+          <p className="text-left">
+            Giờ chiếu: {dataPhongVe?.thongTinPhim?.gioChieu}
+          </p>
+          <p className="text-left">
+            Ngày chiếu:
+            {dataPhongVe?.thongTinPhim?.ngayChieu}
+          </p>
+          <hr />
           <div className="row">
-            <div className="col-8 text-center">
-              <div className="text-warning display-4">Đặt vé xem phim</div>
-              <div className="mt-5 text-light" style={{ fontSize: "25px" }}>
-                Màn Hình
-              </div>
-              <div
-                className="mt-2"
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                }}
-              >
-                <div className="justify-content-center">
-                  <div className="screen pl-2"></div>
-                </div>
-                <div className="row pt-5">
-                  <h1 style={{ flex: "0 0 auto", width: "6.25%" }}>1</h1>
-                  <h1 style={{ flex: "0 0 auto", width: "6.25%" }}>2</h1>
-                  <h1 style={{ flex: "0 0 auto", width: "6.25%" }}>3</h1>
-                  <h1 style={{ flex: "0 0 auto", width: "6.25%" }}>4</h1>
-                  <h1 style={{ flex: "0 0 auto", width: "6.25%" }}>5</h1>
-                  <h1 style={{ flex: "0 0 auto", width: "6.25%" }}>6</h1>
-                  <h1 style={{ flex: "0 0 auto", width: "6.25%" }}>7</h1>
-                  <h1 style={{ flex: "0 0 auto", width: "6.25%" }}>8</h1>
-                  <h1 style={{ flex: "0 0 auto", width: "6.25%" }}>9</h1>
-                  <h1 style={{ flex: "0 0 auto", width: "6.25%" }}>10</h1>
-                  <h1 style={{ flex: "0 0 auto", width: "6.25%" }}>11</h1>
-                  <h1 style={{ flex: "0 0 auto", width: "6.25%" }}>12</h1>
-                  <h1 style={{ flex: "0 0 auto", width: "6.25%" }}>13</h1>
-                  <h1 style={{ flex: "0 0 auto", width: "6.25%" }}>14</h1>
-                  <h1 style={{ flex: "0 0 auto", width: "6.25%" }}>15</h1>
-                  <h1 style={{ flex: "0 0 auto", width: "6.25%" }}>16</h1>
-                </div>
-                <div className="row">
-                  {dataPhongVe.map((item, index) => {
-                    return (
-                      <div
-                        key={index}
-                        style={{ flex: "0 0 auto", width: "6.25%" }}
-                      >
-                        <button
-                          className="btn btn-light text-white"
-                          style={{ border: "none", background: "none" }}
-                        >
-                          {item.tenGhe}
-                        </button>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-            <div className="col-4">
-              <div style={{ fontSize: "35px" }} className="text-danger">
-                Danh sách ghế bạn chọn
-              </div>
-              <div>
-                <div className="mt-5">
-                  <button
-                    className="gheDuocChon"
-                    style={{ marginLeft: "-30px" }}
-                  />
-                  <span className="text-light" style={{ fontSize: 30 }}>
-                    Ghế đã đặt
-                  </span>
-                  <br />
-                  <button className="gheDangChon" />
-                  <span className="text-light" style={{ fontSize: 30 }}>
-                    Ghế đang đặt
-                  </span>
-                  <br />
-                  <button className="ghe" style={{ marginLeft: 0 }} />
-                  <span className="text-light" style={{ fontSize: 30 }}>
-                    Ghế chưa đặt
-                  </span>
-                </div>
-                <div className=" pl-3 mt-5">
-                  <table className="table" border={2}>
-                    <thead>
-                      <tr className="text-light" style={{ fontSize: 30 }}>
-                        <th>Số ghế</th>
-                        <th>Giá</th>
-                        <th />
-                      </tr>
-                    </thead>
-                    <tbody className="text-warning" />
-                    <tfoot>
-                      <tr className="text-warning">
-                        <td />
-                        <td>Tổng Tiền: </td>
-                        <td>0</td>
-                      </tr>
-                    </tfoot>
-                  </table>
-                </div>
-              </div>
-            </div>
+            <span className="text-left col-4">Ghế bạn chọn : </span>
+            {_.sortBy(danhSachGheDangDat, ["stt"]).map((ghe, index) => {
+              return (
+                <span key={index} className=" col-1">
+                  {ghe.stt}
+                </span>
+              );
+            })}
+            <span className="col-1" style={{ color: "green" }}>
+              {danhSachGheDangDat
+                ?.reduce((tongTien, ghe, index) => {
+                  return (tongTien += ghe.giaVe);
+                }, 0)
+                .toLocaleString()}
+              Đ
+            </span>
+          </div>
+          <hr />
+          <div className="row pb-5">
+            <h6>Thông tin người đặt </h6>
+            <span className="col-8 text-left pb-2">
+              Email: {dataUser.email}
+            </span>
+            <span className="col-8 text-left">
+              Số điện thoại: {dataUser.soDT}
+            </span>
+          </div>
+          <div className="text-left mb-0" style={{ marginBottom: 0 }}>
+            <Button
+              type="primary"
+              onClick={() => {
+                const thongTinDatVe = new ThongTinDatVe();
+                thongTinDatVe.maLichChieu = params.maLichChieu;
+                thongTinDatVe.danhSachVe = danhSachGheDangDat;
+                dispatch(datVeXemPhim(thongTinDatVe));
+                alert("Bạn đã đặt vé thành công !");
+              }}
+            >
+              Đặt vé
+            </Button>
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+function callback(key) {
+  console.log(key);
+}
+export default function () {
+  const params = useParams();
+  return (
+    <div className="container p-5">
+      <Tabs defaultActiveKey="1" onChange={callback}>
+        <Tabs.TabPane tab="Chọn ghế thanh toán" key="1">
+          <Item>
+            <TrangDatVe {...params.maLichChieu} />
+          </Item>
+        </Tabs.TabPane>
+        <Tabs.TabPane tab="Kết quả đặt vé" key="2">
+          <Item>
+            <KetQuaDatVe {...params.maLichChieu} />
+          </Item>
+        </Tabs.TabPane>
+      </Tabs>
+    </div>
+  );
+}
+function KetQuaDatVe() {
+  const [dataUser, setDataUser] = useState({});
+  const params = useParams();
+  let timeout = null;
+
+  if (timeout != null) {
+    clearTimeout(timeout);
+  }
+  useEffect(() => {
+    timeout = setTimeout(() => {
+      axios({
+        method: "POST",
+        url: "https://movienew.cybersoft.edu.vn/api/QuanLyNguoiDung/ThongTinTaiKhoan",
+        headers: {
+          TokenCybersoft:
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAzNCIsIkhldEhhblN0cmluZyI6IjI3LzA0LzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY4MjU1MzYwMDAwMCIsIm5iZiI6MTY1MzU4NDQwMCwiZXhwIjoxNjgyNzAxMjAwfQ.WXYIKeb4x0tXpYflgrnKFbivOnuUdLmKcgl7Xr0MD3I",
+          Authorization: `Bearer ${getStringLocal(USER_LOGIN)}`,
+        },
+      }).then((res) => {
+        setDataUser(res.data.content);
+      });
+    }, 1000);
+  }, [params.maLichChieu]);
+  const renderTicKetItem = function () {
+    return dataUser.thongTinDatVe?.map((ticket, index) => {
+      const seat = _.first(ticket?.danhSachGhe);
+      return (
+        <div className="p-2 lg:w-1/3 md:w-1/2 w-full " key={index}>
+          <div className="h-full flex items-center border-gray-200 border p-4 rounded-lg">
+            <img
+              alt="team"
+              className="w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4"
+              src="https://dummyimage.com/80x80"
+            />
+            <div className="flex-grow">
+              <h6 className="text-gray-900 title-font font-medium">
+                {ticket.tenPhim}
+              </h6>
+              <p className="text-gray-500">
+                Giờ chiếu: {moment(ticket.ngayDat).format("hh:mm A ")} Ngày
+                chiếu: {moment(ticket.ngayDat).format("DD-MM-YYYY")}
+              </p>
+              <p>
+                <span className="font-bold">Địa điểm: </span>{" "}
+                {seat.tenHeThongRap}
+              </p>
+              <p>
+                <span className="font-bold">Tên rạp: </span>
+                {seat.tenCumRap} <span className="font-bold">Ghế </span>
+                {ticket.danhSachGhe.map((ghe, index) => {
+                  return (
+                    <span className="text-green-600" key={index}>
+                      [{ghe.tenGhe}]{" "}
+                    </span>
+                  );
+                })}
+              </p>
+            </div>
+          </div>
+        </div>
+      );
+    });
+  };
+  return (
+    <div className="container">
+      <h3>Kết quả đặt vé</h3>
+      <section className="text-gray-600 body-font">
+        <div className="container px-5 py-24 mx-auto">
+          <div className="flex flex-col text-center w-full ">
+            <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">
+              Lịch sử đặt vé khách hàng
+            </h1>
+            <p className="lg:w-2/3 mx-auto leading-relaxed text-base">
+              Hãy xem thông tin địa điểm và thời gian để xem phim !
+            </p>
+          </div>
+          <div className="flex flex-wrap -m-2">{renderTicKetItem()}</div>
+        </div>
+      </section>
     </div>
   );
 }

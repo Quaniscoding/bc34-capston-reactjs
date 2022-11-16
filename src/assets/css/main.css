@@ -135,61 +135,41 @@ padding-top: 60px;
     color: #54b4d3;
     border-color: #54b4d3;
 }
-
-
-.rowNumber{
-    background: none;
-    border:none;
-    margin-bottom: 1%;
-    font-size: 30px;
-    color: yellow;
-    
-}
-.firstChar{
-    color: yellow;
-    font-size: 35px;
-    margin-right: 15px;
-
-}
-
-.screen{
-    border-bottom: 50px solid rgb(255, 159, 95);
-    border-left: 50px solid transparent;
-    border-right: 50px solid transparent;
-    height: 100;
-    width:100%;
-    filter: drop-shadow(4px 30px 20px rgba(255, 255, 255, 0.5));
-    font-size: 25px;
+.ghe {/*ghe thuong*/
+    height: 39px;
+    width: 39px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
     color: #fff;
+    background-color: rgb(123,122,122);
 }
-
-
-.gheDuocChon {
-    border: 3px solid orange;
-    background: orange;
-    color: #000;
-    cursor: no-drop !important;
-    border-radius: 5px;
-    width: 45px;
-    height: 35px;
-
+.gheDaDat{
+    background-color: rgb(232, 76, 76) !important;
+    cursor:no-drop;
 }
-
-.gheDangChon {
-    background: rgb(109, 238, 109);
-    border: 3px solid rgb(109, 238, 109);
-    color: #000;
-    cursor: pointer;
-    border-radius: 5px;
-    width: 45px;
-    height: 35px;
+.gheDangDat{
+    background-color: rgb(123, 185, 123) !important;
 }
-.ghe {
-    background: rgb(192, 201, 192);
-    border: 3px solid  rgb(192, 201, 192);
-    color: #000;
-    cursor: pointer;
-    border-radius: 5px;
-    width: 45px;
-    height: 35px;
+.gheVip{
+    background-color: rgb(255, 55, 0);
+}
+.gheDaDuocDat{
+    background-color: rgb(246,246,246);
+    box-shadow: -1px 2px 18px -6px;
+    -webkit-box-shadow:-1px 2px 18px -6px #000000;
+    color: orange !important;
+    cursor:no-drop;
+    border:1px solid orange
+}
+.trapezoid {
+    border-bottom: 50px solid gray;
+    border-left: 25px solid transparent;
+    border-right: 25px solid transparent;
+    height: 0;
+    width: 100%;
+    opacity: 0.4;
+   filter: drop-shadow(0px 128px 63px rgba(8,8,8,0.38));
+   -webkit-filter: drop-shadow(0px 128px 63px rgba(8,8,8,0.38));
+   -moz-filter:drop-shadow(0px 128px 63px rgba(8,8,8,0.38)) ;
 }
