@@ -245,25 +245,30 @@ function TrangDatVe() {
   );
 }
 
-function callback(key) {
-  console.log(key);
-}
+function callback(key) {}
 export default function () {
+  const isLogin = getStringLocal("user");
   const params = useParams();
   return (
     <div className="container p-5">
-      <Tabs defaultActiveKey="1" onChange={callback}>
-        <Tabs.TabPane tab="Chọn ghế thanh toán" key="1">
-          <Item>
-            <TrangDatVe {...params.maLichChieu} />
-          </Item>
-        </Tabs.TabPane>
-        <Tabs.TabPane tab="Kết quả đặt vé" key="2">
-          <Item>
-            <KetQuaDatVe {...params.maLichChieu} />
-          </Item>
-        </Tabs.TabPane>
-      </Tabs>
+      {isLogin ? (
+        <Tabs defaultActiveKey="1" onChange={callback}>
+          <Tabs.TabPane tab="Chọn ghế thanh toán" key="1">
+            <Item>
+              <TrangDatVe {...params.maLichChieu} />
+            </Item>
+          </Tabs.TabPane>
+          <Tabs.TabPane tab="Kết quả đặt vé" key="2">
+            <Item>
+              <KetQuaDatVe {...params.maLichChieu} />
+            </Item>
+          </Tabs.TabPane>
+        </Tabs>
+      ) : (
+        <>
+          Bạn phải đăng nhập để mua vé ! <a href="/login">Đăng nhập</a>
+        </>
+      )}
     </div>
   );
 }
@@ -299,7 +304,7 @@ function KetQuaDatVe() {
             <img
               alt="team"
               className="w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4"
-              src="https://dummyimage.com/80x80"
+              src={ticket.hinhAnh}
             />
             <div className="flex-grow">
               <h6 className="text-gray-900 title-font font-medium">

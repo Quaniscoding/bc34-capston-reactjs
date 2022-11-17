@@ -33,6 +33,6 @@ export const callgetDanhSachThongTinHeThongRap = async (ditpatch) => {
         })
         ditpatch(getDanhSachThongTinHeThongRap(apiGetDanhSachThongTinHeThongRap.data.content))
     } catch (err) {
-        removeLocal(USER_LOGIN)
+        console.log(err);
     }
 }

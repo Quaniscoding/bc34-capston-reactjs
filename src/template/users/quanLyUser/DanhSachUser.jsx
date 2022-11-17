@@ -1,50 +1,40 @@
-import {
-  EditOutlined,
-  DeleteOutlined,
-  CarryOutOutlined,
-} from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined } from "@mui/icons-material";
 import { Button, Result, Space } from "antd";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { callGetDanhSachPhim } from "../../redux/reducers/danhSachPhimSearch";
-import { USER_LOGIN } from "../../utils/constant";
-import useRoute from "../../hooks/useRoute";
-import "../../assets/css/main.css";
 import { NavLink, useNavigate } from "react-router-dom";
-import { callDeletePhim } from "../../redux/reducers/userReducer";
-export default function Films() {
+import useRoute from "../../../hooks/useRoute";
+import { callGetDanhSachUser } from "../../../redux/reducers/danhSachUser";
+import { callDeleteUser } from "../../../redux/reducers/userReducer";
+import { USER_LOGIN } from "../../../utils/constant";
+
+export default function DanhSachUser() {
   const {
     searchParams: [searchParams, setSearchParams],
   } = useRoute();
-  const keyWord = searchParams.has("tenPhim")
-    ? searchParams.get("tenPhim")
-    : "";
+  const keyWord = searchParams.has("tuKhoa") ? searchParams.get("tuKhoa") : "";
   let dispatch = useDispatch();
   let navigate = useNavigate();
   let timeout = null;
-  let isLogin = localStorage.getItem(USER_LOGIN);
-  let danhSachPhim = useSelector(
-    (state) => state.danhSachPhimReducer.danhSachPhim
-  );
   if (timeout != null) {
     clearTimeout(timeout);
   }
-  const getPhim = async () => {
-    dispatch(callGetDanhSachPhim(keyWord));
-  };
+  let danhSachUser = useSelector((state) => state.danhSachUser.danhSachUser);
   useEffect(() => {
     timeout = setTimeout(() => {
-      getPhim();
-    }, 500);
+      dispatch(callGetDanhSachUser(keyWord));
+    }, 100);
   }, [keyWord]);
+  let isLogin = localStorage.getItem(USER_LOGIN);
   return (
-    <div className="col-9">
+    <div className="col-8">
+      {" "}
       {isLogin ? (
         <div className="container">
           <ul className="nav nav-tabs" role="tablist">
             <li className="nav-item">
               <a className="nav-link active" role="tab" data-toggle="tab">
-                Danh sách chi tiết phim
+                Danh sách người dùng
               </a>
             </li>
           </ul>
@@ -56,11 +46,11 @@ export default function Films() {
                   <form className="form-inline">
                     <input
                       className="form-control mr-sm-2"
-                      placeholder="Nhập tên phim"
+                      placeholder="Nhập tên người dùng"
                       value={keyWord}
                       onChange={(event) => {
                         let { value } = event.target;
-                        setSearchParams({ tenPhim: value });
+                        setSearchParams({ tuKhoa: value });
                       }}
                     />
                   </form>
@@ -71,33 +61,29 @@ export default function Films() {
                 <table className="table table-bordered">
                   <thead>
                     <tr>
-                      <th>Mã Phim</th>
-                      <th>Hình Ảnh</th>
-                      <th>Tên Phim</th>
-                      <th>Mô Tả</th>
-                      <th>Hành động</th>
+                      <th>STT</th>
+                      <th>Tài khoản</th>
+                      <th>Họ tên</th>
+                      <th>Email</th>
+                      <th>Số điện thoại</th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
-                    {danhSachPhim.map((item, index) => {
+                    {danhSachUser.map((item, index) => {
                       return (
                         <tr key={index}>
-                          <th>{item.maPhim}</th>
-                          <th>
-                            <img
-                              src={item.hinhAnh}
-                              alt=""
-                              style={{ width: "80px" }}
-                            />
-                          </th>
-                          <th>{item.tenPhim}</th>
-                          <th>{item.moTa}</th>
+                          <th>{index}</th>
+                          <th>{item.taiKhoan}</th>
+                          <th>{item.hoTen}</th>
+                          <th>{item.email}</th>
+                          <th>{item.soDT}</th>
                           <th>
                             <Space>
                               <EditOutlined
                                 onClick={() => {
                                   navigate(
-                                    `/admin/films/capnhatphim/${item.maPhim}`
+                                    `/admin/danhSachUser/editUser/${item.taiKhoan}`
                                   );
                                 }}
                                 style={{
@@ -113,22 +99,11 @@ export default function Films() {
                                 onClick={() => {
                                   if (
                                     window.confirm(
-                                      `Bạn có chắc muốn xóa phim ${item.tenPhim} hay không`
+                                      `Bạn có chắc muốn xóa tài khoản: ${item.taiKhoan} không`
                                     )
                                   ) {
-                                    dispatch(callDeletePhim(item.maPhim));
+                                    dispatch(callDeleteUser(item.taiKhoan));
                                   }
-                                }}
-                              />
-                            </Space>
-                            <Space>
-                              <CarryOutOutlined
-                                style={{ color: "green", fontSize: "20px" }}
-                                onClick={() => {
-                                  navigate(
-                                    `/admin/films/showtimes/${item.maPhim}`
-                                  );
-                                  dispatch();
                                 }}
                               />
                             </Space>
@@ -158,7 +133,7 @@ export default function Films() {
         </div>
       ) : (
         <Result
-          subTitle="Bạn phải đăng nhập để quản lý danh sách phim !"
+          subTitle="Bạn phải đăng nhập để quản lý danh sách người dùng !"
           extra={
             <Button type="dashed">
               <NavLink className="pb-2" to="/login">

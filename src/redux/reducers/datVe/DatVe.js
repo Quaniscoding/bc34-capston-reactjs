@@ -22,11 +22,8 @@ export default DatVe.reducer
 export const datVeXemPhim = (thongTinDatVe = new ThongTinDatVe()) => {
     return async dispatch => {
         try {
-
             const res = await http.post("/QuanLyDatVe/DatVe", thongTinDatVe)
-
         } catch (err) {
-
             console.log(err?.response?.data);
         }
     }

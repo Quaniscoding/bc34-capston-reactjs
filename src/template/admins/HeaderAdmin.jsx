@@ -8,7 +8,6 @@ import {
 import { Menu } from "antd";
 import MenuItem from "antd/lib/menu/MenuItem";
 import { USER_LOGIN } from "../../utils/constant";
-
 export default function HeaderAdmin() {
   let navigate = useNavigate();
   let [reset, setReset] = useState(0);
@@ -43,7 +42,7 @@ export default function HeaderAdmin() {
       ),
       getItem(
         "Thông tin cá nhân",
-        "1b",
+        "1c",
         <MenuItem>
           <NavLink className="nav-link" to="/infousers">
             Thông tin cá nhân
@@ -52,7 +51,7 @@ export default function HeaderAdmin() {
       ),
       getItem(
         "Đăng xuất",
-        "1c",
+        "1d",
         <MenuItem>
           <NavLink
             className="nav-link"
@@ -79,8 +78,20 @@ export default function HeaderAdmin() {
         <NavLink className="nav-link" to="/admin/films/themphim"></NavLink>
       ),
     ]),
-    getItem("Navigation Two", "sub2", <AppstoreOutlined />, [
-      getItem("Option 9", "9"),
+    getItem("Quản lý người dùng", "sub2", <MailOutlined />, [
+      getItem(
+        "Danh sách người dùng",
+        "sub2a",
+        <NavLink className="nav-link" to="/admin/danhSachUser"></NavLink>
+      ),
+      getItem(
+        "Thêm người dùng",
+        "sub2b",
+        <NavLink
+          className="nav-link"
+          to="/admin/danhSachUser/themUser"
+        ></NavLink>
+      ),
     ]),
   ];
   const [collapsed, setCollapsed] = useState(false);

@@ -65,3 +65,35 @@ export const callDeletePhim = (maPhim) => async () => {
         console.log(err);
     }
 }
+export const callDeleteUser = (taiKhoan) => async () => {
+    try {
+        const apiUpdate = await http.delete(`/QuanLyNguoiDung/XoaNguoiDung?TaiKhoan=${taiKhoan}`);
+        history.push("/admin/danhSachUser")
+    } catch (err) {
+        console.log(err);
+    }
+}
+export const callUploadUser = (data) => async () => {
+    try {
+        const apiUpload = await http.post("/QuanLyNguoiDung/ThemNguoiDung", data);
+        history.push("/admin/danhSachUser")
+    } catch (err) {
+        console.log(err);
+    }
+}
+export const callUpdateThongTinUser = (data) => async () => {
+    try {
+        const apiUpdate = await http.put("/QuanLyNguoiDung/CapNhatThongTinNguoiDung", data);
+        history.push("/infousers")
+    } catch (err) {
+        console.log(err);
+    }
+}
+export const callUpdateThongTinUserAdmin = (data) => async () => {
+    try {
+        const apiUpdate = await http.post("/QuanLyNguoiDung/CapNhatThongTinNguoiDung", data);
+        history.push("/admin/danhSachUser")
+    } catch (err) {
+        console.log(err);
+    }
+}
