@@ -202,14 +202,33 @@ export default function ChiTietPhim() {
                 return (
                   <div className="row">
                     <div className="d-flex col-6">
-                      <img height={"50px"} src={itemCumRap.hinhAnh} />
-                      <h5>{itemCumRap.tenCumRap}</h5>
+                      <a style={{ cursor: "pointer" }}>
+                        <h5>{itemCumRap.tenCumRap}</h5>
+                        <span>{itemCumRap.diaChi}</span>
+                        <br />
+                        <span className="text-red-600">Chi Tiết</span>
+                      </a>
                     </div>
                     <div className="col-6">
                       {itemCumRap.danhSachPhim.map((itemPhim) => {
                         return (
                           <div>
-                            <h5>{itemPhim.tenPhim}</h5>
+                            <h5>
+                              <span
+                                style={{
+                                  color: "white",
+                                  backgroundColor: "red",
+                                  borderRadius: "5px",
+                                  textAlign: "center",
+                                  padding: "0 5px",
+                                  marginRight: "8px",
+                                }}
+                              >
+                                C18{" "}
+                              </span>
+                              {itemPhim.tenPhim}
+                            </h5>
+
                             <p style={{ color: "gray" }}>
                               {itemPhim.lstLichChieuTheoPhim.map(
                                 (itemLichChieu) => {
@@ -217,7 +236,6 @@ export default function ChiTietPhim() {
                                   let ngayChieu = new Date(
                                     itemLichChieu.ngayChieuGioChieu
                                   );
-
                                   return (
                                     <>
                                       {ngayChieu >= dateNow &&

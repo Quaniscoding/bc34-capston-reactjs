@@ -180,7 +180,7 @@ export default function HomeTicketMovie() {
       )}
       {isLogin ? (
         <div className=" pt-5 text-left row">
-          <div className="col-3">
+          <div className="col-2">
             {dataRap?.map((item, index) => {
               return (
                 <h3 key={index}>
@@ -188,21 +188,23 @@ export default function HomeTicketMovie() {
                     onClick={() => {
                       layLichChieu(item.maHeThongRap);
                     }}
-                    width={50}
+                    style={{ width: "50px", height: "50px" }}
                     src={item.logo}
                   />
                 </h3>
               );
             })}
           </div>
-          <div className="col-9">
+          <div className="col-6">
             {dataLichChieu?.map((item) => {
               return item.lstCumRap.map((itemCumRap) => {
                 return (
                   <div className="row">
                     <div className="d-flex col-6">
-                      <img height={"50px"} src={itemCumRap.hinhAnh} />
-                      <h5>{itemCumRap.tenCumRap}</h5>
+                      <a style={{ cursor: "pointer" }}>
+                        <h5>{itemCumRap.tenCumRap}</h5>
+                        <span>{itemCumRap.diaChi}</span>
+                      </a>
                     </div>
                     <div className="col-6">
                       {itemCumRap.danhSachPhim.map((itemPhim) => {
