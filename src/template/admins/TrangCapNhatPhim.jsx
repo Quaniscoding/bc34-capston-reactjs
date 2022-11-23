@@ -33,9 +33,9 @@ export default function TrangCapNhatPhim() {
       trailer: data.trailer,
       moTa: data.moTa,
       ngayKhoiChieu: data.ngayKhoiChieu,
-      dangChieu: false,
-      sapChieu: false,
-      hot: false,
+      dangChieu: data.dangChieu,
+      sapChieu: data.sapChieu,
+      hot: data.hot,
       danhGia: data.danhGia,
       hinhAnh: null,
     },
@@ -65,6 +65,8 @@ export default function TrangCapNhatPhim() {
   const dateFormat = "DD/MM/YYYY";
   const handleChangeSwitch = (name) => {
     return (value) => {
+      console.log(value);
+      console.log(name);
       formik.setFieldValue(name, value);
     };
   };
@@ -158,7 +160,7 @@ export default function TrangCapNhatPhim() {
       >
         <DatePicker
           onChange={handleChangeDatePicker}
-          defaultValue={moment(formik.values.ngayKhoiChieu, dateFormat)}
+          defaultValue={moment(formik.values.ngayKhoiChieu)}
           format={dateFormat}
         />
       </Form.Item>
@@ -166,21 +168,21 @@ export default function TrangCapNhatPhim() {
         <Switch
           name="dangChieu"
           onChange={handleChangeSwitch("dangChieu")}
-          defaultChecked={formik.values.dangChieu}
+          checked={formik.values.dangChieu}
         />
       </Form.Item>
       <Form.Item label="Sắp chiếu">
         <Switch
           name="sapChieu"
           onChange={handleChangeSwitch("sapChieu")}
-          defaultChecked={formik.values.sapChieu}
+          checked={formik.values.sapChieu}
         />
       </Form.Item>
       <Form.Item label="Hot">
         <Switch
           name="hot"
           onChange={handleChangeSwitch("hot")}
-          defaultChecked={formik.values.hot}
+          checked={formik.values.hot}
         />
       </Form.Item>
       <Form.Item

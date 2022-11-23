@@ -21,14 +21,14 @@ import ThemUser from './template/users/quanLyUser/ThemUser';
 import EditUser from './template/users/quanLyUser/EditUser';
 function App() {
   return (
-    <div className="App">
+    <div className="App" >
       <HistoryRouter history={history} >
         <Routes>
           {/* user */}
           <Route path='/' element={<Layout />}>
-            <Route path='trangchu' element={<TrangChu />} />
+            <Route index path='trangchu' element={<TrangChu />} />
             <Route path='*' element={<NotFound />} />
-            <Route index path='login' element={<LogIn />} />
+            <Route path='login' element={<LogIn />} />
             <Route path='signup' element={<SignUp />} />
             <Route path='infousers' element={<InfoUser />} />
             <Route path='chitietphim/:maPhim' element={<ChiTietPhim />} />

@@ -5,7 +5,12 @@ import Header from "./Header";
 
 export default function Layout() {
   return (
-    <div style={{ backgroundColor: "#fdfcf0" }}>
+    <div
+      style={{
+        background:
+          "linear-gradient(to top, rgb(10, 32, 41), transparent 100%)",
+      }}
+    >
       <Header />
       {/* left  */}
       {/* hiện thị content của pages */}

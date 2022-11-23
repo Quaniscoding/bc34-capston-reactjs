@@ -132,20 +132,10 @@ export default function HomeTicketMovie() {
                             <h5 className="text-white mb-0">
                               Đánh giá: {item.danhGia} điểm
                             </h5>
-                            <div>
+                            <div className="pt-2">
                               <button
                                 type="button"
-                                className="btn btn-outline-light"
-                                onClick={() =>
-                                  navigate(`/chitietphim/${item.maPhim}`)
-                                }
-                              >
-                                Chi tiết phim
-                              </button>
-                              <> </>
-                              <button
-                                type="button"
-                                className="btn btn-outline-light"
+                                className="btn btn-outline-light "
                                 onClick={() =>
                                   navigate(`/chitietphim/${item.maPhim}`)
                                 }

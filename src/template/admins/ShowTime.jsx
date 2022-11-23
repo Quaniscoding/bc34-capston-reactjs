@@ -18,8 +18,11 @@ export default function ShowTime() {
       giaVe: "",
     },
     onSubmit: (values) => {
-      console.log("value", values);
-      dispatch(taoLichChieu(values));
+      if (values.giaVe < 75000 || values.giaVe > 200000) {
+        alert("Giá vé phải từ 75.000 - 200.000");
+      } else {
+        dispatch(taoLichChieu(values));
+      }
     },
   });
   const [danhSachCumRap, setdanhSachCumRap] = useState([]);

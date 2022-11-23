@@ -11,6 +11,7 @@ import QuanLyDatVeReducer from './reducers/datVe/QuanLyDatVeReducer'
 import DatVe from './reducers/datVe/DatVe'
 import TaoLichChieu from './reducers/datVe/TaoLichChieu'
 import danhSachUser from './reducers/danhSachUser'
+import dataThongTinLichChieu from './reducers/dataThongTinLichChieu'
 export const store = configureStore({
   reducer: {
     danhSachPhimReducer,
@@ -23,6 +24,7 @@ export const store = configureStore({
     QuanLyDatVeReducer,
     DatVe,
     TaoLichChieu,
-    danhSachUser
+    danhSachUser,
+    dataThongTinLichChieu
   },
 })

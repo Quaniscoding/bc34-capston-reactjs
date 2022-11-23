@@ -18,16 +18,10 @@ import moment from "moment";
 import Item from "antd/lib/list/Item";
 import { Button, notification } from "antd";
 function TrangDatVe() {
-  const openNotification = () => {
-    notification.open({
-      message: "Bạn đã đặt vé thành công !",
-      description: "Đang chuyển hướng đến trang chủ ",
-      onClick: () => {},
-    });
-  };
   let dispatch = useDispatch();
   const [dataUser, setDataUser] = useState([]);
   const [dataPhongVe, setDataPhongVe] = useState([]);
+  console.log(dataPhongVe);
   const params = useParams();
   let timeout = null;
   let danhSachGheDangDat = useSelector(
