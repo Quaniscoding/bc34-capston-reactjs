@@ -4,7 +4,7 @@ import { DOMAIN_BE, USER_LOGIN } from "./constant";
 
 export const http = axios.create({
     baseURL: DOMAIN_BE,
-    timeout: 6000
+    timeout: 5000
 })
 http.interceptors.request.use((config) => {
     return {

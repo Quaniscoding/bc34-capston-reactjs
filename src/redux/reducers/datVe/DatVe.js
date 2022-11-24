@@ -22,9 +22,10 @@ export default DatVe.reducer
 export const datVeXemPhim = (thongTinDatVe = new ThongTinDatVe()) => {
     return async dispatch => {
         try {
-            const res = await http.post("/QuanLyDatVe/DatVe", thongTinDatVe)
+            const res = await http.post("/QuanLyDatVe/DatVe", thongTinDatVe);
+            alert("Bạn đã đặt vé thành công !");
         } catch (err) {
-            console.log(err?.response?.data);
+            console.log(err.response.data);
         }
     }
 }

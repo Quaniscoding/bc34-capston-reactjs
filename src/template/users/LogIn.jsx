@@ -113,9 +113,21 @@ export default function LogIn() {
             }}
           >
             <Button type="primary" htmlType="submit">
-              Submit
+              Đăng nhập
             </Button>
           </Form.Item>
+
+          <span>
+            Bạn chưa có tài khoản ?{" "}
+            <a
+              onClick={() => {
+                navigate("/signup");
+              }}
+              className="fw-bolder text-black"
+            >
+              Đăng ký
+            </a>
+          </span>
         </Form>
       )}
     </div>

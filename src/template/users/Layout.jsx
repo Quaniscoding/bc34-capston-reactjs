@@ -8,7 +8,7 @@ export default function Layout() {
     <div
       style={{
         background:
-          "linear-gradient(to top, rgb(10, 32, 41), transparent 100%)",
+          "linear-gradient(to top,rgb(255 222 222), transparent 100%)",
       }}
     >
       <Header />

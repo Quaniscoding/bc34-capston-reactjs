@@ -26,7 +26,6 @@ export default function ChiTietPhim() {
     setIsModalOpen(false);
   };
   const [dataRap, setDataRap] = useState([]);
-  console.log(dataRap);
   const [chiTietPhim, setChiTietPhim] = useState({});
   const data = useSelector((state) => state.dataThongTinLichChieu.data);
   const params = useParams();
@@ -63,7 +62,6 @@ export default function ChiTietPhim() {
       });
     }, 1000);
   }, [params.maPhim]);
-  console.log(data);
   if (data != "") {
     let datVe = () => {
       {
@@ -244,7 +242,7 @@ export default function ChiTietPhim() {
               </div>
             </div>
           </div>
-          <div className=" pt-5 text-left" style={{ margin: "20px 150px" }}>
+          <div className=" pt-5 text-left" style={{ margin: "20px 229px" }}>
             <div className="row">
               <div className="col-4 pt-3" style={{ backgroundColor: "white" }}>
                 {dataRap?.map((item, index) => {
@@ -266,13 +264,6 @@ export default function ChiTietPhim() {
               <div className="col-4  pt-3" style={{ backgroundColor: "white" }}>
                 <div id="datVe">{datVe()}</div>
               </div>
-              <div
-                className="col-4"
-                style={{
-                  background:
-                    "linear-gradient(to top, rgb(10, 32, 41), transparent 100%)",
-                }}
-              ></div>
             </div>
           </div>
         </div>
@@ -280,6 +271,3 @@ export default function ChiTietPhim() {
     );
   }
 }
-
-// .heThongRapChieu[0].cumRapChieu[0]
-//         .lichChieuPhim[0]

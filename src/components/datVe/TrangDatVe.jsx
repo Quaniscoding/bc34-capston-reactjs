@@ -21,13 +21,11 @@ function TrangDatVe() {
   let dispatch = useDispatch();
   const [dataUser, setDataUser] = useState([]);
   const [dataPhongVe, setDataPhongVe] = useState([]);
-  console.log(dataPhongVe);
   const params = useParams();
   let timeout = null;
   let danhSachGheDangDat = useSelector(
     (state) => state.QuanLyDatVeReducer.danhSachGheDangDat
   );
-
   const layDataPhongVe = async () => {
     try {
       const apiDataPhongVe = await axios({
@@ -227,7 +225,6 @@ function TrangDatVe() {
                 thongTinDatVe.maLichChieu = params.maLichChieu;
                 thongTinDatVe.danhSachVe = danhSachGheDangDat;
                 dispatch(datVeXemPhim(thongTinDatVe));
-                alert("Bạn đã đặt vé thành công !");
               }}
             >
               Đặt vé
@@ -287,7 +284,7 @@ function KetQuaDatVe() {
       }).then((res) => {
         setDataUser(res.data.content);
       });
-    }, 1000);
+    }, 0);
   }, [params.maLichChieu]);
   const renderTicKetItem = function () {
     return dataUser.thongTinDatVe?.map((ticket, index) => {
