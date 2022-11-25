@@ -155,10 +155,7 @@ export default function HomeTicketMovie() {
         </div>
       ) : (
         <div>
-          <Result
-            status="404"
-            title="Bạn phải đăng nhập để thấy danh sách phim"
-          />
+          <Result status="404" title="Bạn phải đăng nhập để đặt vé xem phim " />
           <button
             onClick={() => {
               navigate("/login");
@@ -169,7 +166,7 @@ export default function HomeTicketMovie() {
         </div>
       )}
       {isLogin ? (
-        <div className=" pt-5 text-left row">
+        <div className=" pt-5 text-left row" id="cumrap">
           <div className="col-2">
             {dataRap?.map((item, index) => {
               return (
