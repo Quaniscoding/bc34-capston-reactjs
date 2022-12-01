@@ -36,6 +36,10 @@ function InfoUser() {
   if (timeout != null) {
     clearTimeout(timeout);
   }
+  const reloadPage = () => {
+    window.location.reload(false);
+  };
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     timeout = setTimeout(() => {
       axios({
@@ -119,6 +123,13 @@ function InfoUser() {
                 htmlType="submit"
                 className="bg-blue-300"
                 icon={<UpdateOutlined />}
+                onClick={() => {
+                  setLoading(true);
+                  setTimeout(() => {
+                    setLoading(false);
+                  });
+                  reloadPage(true);
+                }}
               >
                 Cập nhật
               </Button>
@@ -137,27 +148,49 @@ function callback(key) {}
 export default function () {
   const isLogin = getStringLocal("user");
   const params = useParams();
+  const reloadPage = () => {
+    window.location.reload(false);
+  };
+  let timeout = null;
+  if (timeout != null) {
+    clearTimeout(timeout);
+  }
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    setLoading(true);
+    timeout = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
   return (
-    <div className="container p-5">
-      {isLogin ? (
-        <Tabs defaultActiveKey="1" onChange={callback}>
-          <Tabs.TabPane tab="Thông tin cá nhân" key="1">
-            <Item>
-              <InfoUser {...params.maLichChieu} />
-            </Item>
-          </Tabs.TabPane>
-          <Tabs.TabPane tab="Lịch sử đặt vé" key="2">
-            <Item>
-              <KetQuaDatVe {...params.maLichChieu} />
-            </Item>
-          </Tabs.TabPane>
-        </Tabs>
+    <>
+      {loading ? (
+        <div className="loader-container">
+          <div className="spinner"></div>
+        </div>
       ) : (
-        <>
-          Bạn phải đăng nhập để mua vé ! <a href="/login">Đăng nhập</a>
-        </>
+        <div className="container p-5">
+          {isLogin ? (
+            <Tabs defaultActiveKey="1" onChange={callback}>
+              <Tabs.TabPane tab="Thông tin cá nhân" key="1">
+                <Item>
+                  <InfoUser {...params.maLichChieu} />
+                </Item>
+              </Tabs.TabPane>
+              <Tabs.TabPane tab="Lịch sử đặt vé" key="2">
+                <Item>
+                  <KetQuaDatVe {...params.maLichChieu} />
+                </Item>
+              </Tabs.TabPane>
+            </Tabs>
+          ) : (
+            <>
+              Bạn phải đăng nhập để mua vé ! <a href="/login">Đăng nhập</a>
+            </>
+          )}
+        </div>
       )}
-    </div>
+    </>
   );
 }
 function KetQuaDatVe() {

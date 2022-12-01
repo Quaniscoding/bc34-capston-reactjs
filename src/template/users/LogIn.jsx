@@ -1,5 +1,5 @@
 //rfc
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import { Button, Form, Input, notification, Result } from "antd";
 import { SmileOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
@@ -7,7 +7,6 @@ import { callLogin } from "../../redux/reducers/userReducer";
 import { USER_LOGIN } from "../../utils/constant";
 import { getStringLocal } from "../../utils/config";
 import { useNavigate } from "react-router-dom";
-
 export default function LogIn() {
   let navigate = useNavigate();
   let isLogin = getStringLocal(USER_LOGIN);
@@ -86,7 +85,7 @@ export default function LogIn() {
             rules={[
               {
                 required: true,
-                message: "Hãy nhập ô này!",
+                message: "Vui lòng nhập tài khoản!",
               },
             ]}
           >
@@ -99,7 +98,7 @@ export default function LogIn() {
             rules={[
               {
                 required: true,
-                message: "Hãy nhập ô này!",
+                message: "Vui lòng nhập mật khẩu !",
               },
             ]}
           >

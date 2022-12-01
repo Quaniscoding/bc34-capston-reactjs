@@ -12,7 +12,6 @@ export default function EditUser() {
   const params = useParams();
   const dispatch = useDispatch();
   let danhSachUser = useSelector((state) => state.danhSachUser.danhSachUser);
-  console.log(danhSachUser[0]?.taiKhoan);
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -25,7 +24,6 @@ export default function EditUser() {
       hoTen: danhSachUser[0]?.hoTen,
     },
     onSubmit: (values) => {
-      console.log(values);
       dispatch(callUpdateThongTinUserAdmin(values));
     },
   });
@@ -50,91 +48,117 @@ export default function EditUser() {
   if (timeout != null) {
     clearTimeout(timeout);
   }
+  const reloadPage = () => {
+    window.location.reload(false);
+  };
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
+    setLoading(true);
     timeout = setTimeout(() => {
+      setLoading(false);
       dispatch(callGetDanhSachUser(params.soDT));
       dispatch(layDanhSachLoaiNguoiDung);
     }, 1000);
   }, [params]);
   return (
-    <div className="col-9">
-      <h1>Cập nhật người dùng</h1>
-      <Form onSubmitCapture={formik.handleSubmit}>
-        <div className="row container">
-          <div className="col-6">
-            <h6 className="text-justify pb-2">
-              Email:{" "}
-              <Input
-                name="email"
-                style={{ width: "182.4px" }}
-                placeholder="Email"
-                onChange={formik.handleChange}
-                value={formik?.values?.email}
-              />
-            </h6>
-            <h6 className="text-justify pb-2">
-              Họ tên:{" "}
-              <Input
-                name="hoTen"
-                style={{ width: "182.4px" }}
-                placeholder="Họ tên"
-                onChange={formik.handleChange}
-                value={formik?.values?.hoTen}
-              />
-            </h6>
-            <h6 className="text-justify pb-2">
-              Số điện thoại:{" "}
-              <Input
-                name="soDT"
-                style={{ width: "182.4px" }}
-                placeholder="Số điện thoại"
-                onChange={formik.handleChange}
-                value={formik?.values?.soDT}
-              />
-            </h6>
-          </div>
-          <div className="col-6">
-            <h6 className="text-justify pb-2">
-              Tài khoản:{" "}
-              <Input
-                name="taiKhoan"
-                style={{ width: "182.4px" }}
-                placeholder="Tài khoản"
-                onChange={formik.handleChange}
-                value={formik?.values?.taiKhoan}
-              />
-            </h6>
-            <h6 className="text-justify pb-2">
-              Mật khẩu:{" "}
-              <Input.Password
-                name="matKhau"
-                style={{ width: "182.4px" }}
-                placeholder="Mật khẩu"
-                onChange={formik.handleChange}
-                iconRender={(visible) =>
-                  visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
-                }
-                value={formik?.values?.matKhau}
-              />
-            </h6>
-            <h6 className="text-justify pb-2">
-              <Select
-                options={danhSachLoaiNguoiDung?.map((loaiNguoiDung, index) => ({
-                  label: loaiNguoiDung.tenLoai,
-                  value: loaiNguoiDung.maLoaiNguoiDung,
-                }))}
-                value={formik?.values?.maLoaiNguoiDung}
-                placeholder="Loại người dùng"
-              />
-            </h6>
-            <div className="text-left">
-              <Button htmlType="submit" className="bg-blue-300">
-                Cập nhật người dùng
-              </Button>
-            </div>
-          </div>
+    <>
+      {loading ? (
+        <div className="loader-container">
+          <div className="spinner"></div>
         </div>
-      </Form>
-    </div>
+      ) : (
+        <div className="col-9">
+          <h1>Cập nhật người dùng</h1>
+          <Form onSubmitCapture={formik.handleSubmit}>
+            <div className="row container">
+              <div className="col-6">
+                <h6 className="text-justify pb-2">
+                  Email:{" "}
+                  <Input
+                    name="email"
+                    style={{ width: "182.4px" }}
+                    placeholder="Email"
+                    onChange={formik.handleChange}
+                    value={formik?.values?.email}
+                  />
+                </h6>
+                <h6 className="text-justify pb-2">
+                  Họ tên:{" "}
+                  <Input
+                    name="hoTen"
+                    style={{ width: "182.4px" }}
+                    placeholder="Họ tên"
+                    onChange={formik.handleChange}
+                    value={formik?.values?.hoTen}
+                  />
+                </h6>
+                <h6 className="text-justify pb-2">
+                  Số điện thoại:{" "}
+                  <Input
+                    name="soDT"
+                    style={{ width: "182.4px" }}
+                    placeholder="Số điện thoại"
+                    onChange={formik.handleChange}
+                    value={formik?.values?.soDT}
+                  />
+                </h6>
+              </div>
+              <div className="col-6">
+                <h6 className="text-justify pb-2">
+                  Tài khoản:{" "}
+                  <Input
+                    name="taiKhoan"
+                    style={{ width: "182.4px" }}
+                    placeholder="Tài khoản"
+                    onChange={formik.handleChange}
+                    value={formik?.values?.taiKhoan}
+                  />
+                </h6>
+                <h6 className="text-justify pb-2">
+                  Mật khẩu:{" "}
+                  <Input.Password
+                    name="matKhau"
+                    style={{ width: "182.4px" }}
+                    placeholder="Mật khẩu"
+                    onChange={formik.handleChange}
+                    iconRender={(visible) =>
+                      visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
+                    }
+                    value={formik?.values?.matKhau}
+                  />
+                </h6>
+                <h6 className="text-justify pb-2">
+                  <Select
+                    options={danhSachLoaiNguoiDung?.map(
+                      (loaiNguoiDung, index) => ({
+                        label: loaiNguoiDung.tenLoai,
+                        value: loaiNguoiDung.maLoaiNguoiDung,
+                      })
+                    )}
+                    value={formik?.values?.maLoaiNguoiDung}
+                    placeholder="Loại người dùng"
+                  />
+                </h6>
+                <div className="text-left">
+                  <Button
+                    htmlType="submit"
+                    className="bg-blue-300"
+                    onClick={() => {
+                      setLoading(true);
+                      setTimeout(() => {
+                        setLoading(false);
+                      });
+                      reloadPage(true);
+                    }}
+                  >
+                    Cập nhật người dùng
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </Form>
+        </div>
+      )}
+    </>
   );
 }

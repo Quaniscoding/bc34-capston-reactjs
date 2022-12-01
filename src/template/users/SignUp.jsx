@@ -51,11 +51,11 @@ export default function SignUp(props) {
                               rules={[
                                 {
                                   required: true,
-                                  message: "Hãy nhập ô này!",
+                                  message: "Hãy nhập mật khẩu!",
                                 },
                               ]}
                             >
-                              <Input />
+                              <Input.Password />
                             </Form.Item>
                           </div>
                         </div>

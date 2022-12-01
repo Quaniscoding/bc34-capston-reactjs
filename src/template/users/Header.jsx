@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../../assets/imgs/react.png";
 import Box from "@mui/material/Box";
@@ -26,6 +26,14 @@ export default function Header() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const [loading, setLoading] = useState(false);
+  let timeout = null;
+  useEffect(() => {
+    setLoading(true);
+    timeout = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
   return (
     <nav className=" container navbar navbar-expand-lg navbar-light bg-light">
       <NavLink to="/trangchu">
@@ -159,7 +167,8 @@ export default function Header() {
               onClick={() => {
                 setReset(reset + 1);
                 localStorage.removeItem(USER_LOGIN);
-                navigate(`/trangchu`);
+                navigate(`/login`);
+                loading(false);
               }}
             >
               <ListItemIcon>

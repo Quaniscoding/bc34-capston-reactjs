@@ -4,7 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import "../../assets/css/embedvideo.css";
 import Embedvideo from "./embedvideo";
 import moment from "moment/moment";
-import { Space, Button, Modal, Progress } from "antd";
+import { Space, Button, Modal } from "antd";
 import {
   HomeOutlined,
   RightOutlined,
@@ -46,8 +46,11 @@ export default function ChiTietPhim() {
     clearTimeout(timeout);
   }
   let dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
+    setLoading(true);
     timeout = setTimeout(() => {
+      setLoading(false);
       dispatch(callGetData(params.maPhim));
       getApiChiTiet();
       axios({
@@ -115,159 +118,175 @@ export default function ChiTietPhim() {
       }
     };
     return (
-      <div className="container">
-        <div className="row text-left mt-5">
-          <div className="col-12">
-            <ul className="row">
-              <li style={{ flex: "0 0 auto", width: "5%" }}>
-                <Space>
-                  <a href="">
-                    <HomeOutlined
-                      style={{ fontSize: "25px", color: "black" }}
-                      onClick={() => navigate(`/trangchu`)}
-                    />
-                  </a>
-                  <RightOutlined
-                    style={{ fontSize: "25px", fontWeight: "bold" }}
-                  />
-                </Space>
-              </li>
-              <li className="col-9">
-                {" "}
-                <p
-                  style={{
-                    gap: "8px",
-                    paddingTop: "3px",
-                    fontWeight: "bold",
-                    textDecoration: "underline",
-                  }}
-                >
-                  Chi Tiết Phim: {chiTietPhim.tenPhim}
-                </p>
-              </li>
-            </ul>
+      <>
+        {loading ? (
+          <div className="loader-container">
+            <div className="spinner"></div>
           </div>
-          <div
-            className="col-12"
-            style={{
-              borderBottom: "2px solid #222",
-              paddingBottom: "10px",
-            }}
-          >
-            <h1>Nội dung phim</h1>
-          </div>
-          <div className="row col-12 pt-4">
-            <div className="col-3">
-              <img
-                src={chiTietPhim.hinhAnh}
-                style={{ width: "200px", height: "250px" }}
-              />
-            </div>
-            <div className="col-6">
-              <h2
+        ) : (
+          <div className="container">
+            <div className="row text-left mt-5">
+              <div className="col-12">
+                <ul className="row">
+                  <li style={{ flex: "0 0 auto", width: "5%" }}>
+                    <Space>
+                      <a href="">
+                        <HomeOutlined
+                          style={{ fontSize: "25px", color: "black" }}
+                          onClick={() => navigate(`/trangchu`)}
+                        />
+                      </a>
+                      <RightOutlined
+                        style={{ fontSize: "25px", fontWeight: "bold" }}
+                      />
+                    </Space>
+                  </li>
+                  <li className="col-9">
+                    {" "}
+                    <p
+                      style={{
+                        gap: "8px",
+                        paddingTop: "3px",
+                        fontWeight: "bold",
+                        textDecoration: "underline",
+                      }}
+                    >
+                      Chi Tiết Phim: {chiTietPhim.tenPhim}
+                    </p>
+                  </li>
+                </ul>
+              </div>
+              <div
+                className="col-12"
                 style={{
-                  borderBottom: "1px solid #222",
+                  borderBottom: "2px solid #222",
+                  paddingBottom: "10px",
                 }}
               >
-                {chiTietPhim.tenPhim}
-              </h2>
-              <p>Đánh giá: {chiTietPhim.danhGia} điểm</p>
-              <p>Mô tả: {chiTietPhim.moTa}</p>
-              <div className="button row">
-                <div style={{ flex: "0 0 auto", width: "15%" }}>
-                  <Button type="default">
-                    <a href="#datVe">
-                      <Space>
-                        <PrinterOutlined style={{ paddingBottom: "5px" }} />
-                        Đặt vé
-                      </Space>
-                    </a>
-                  </Button>
+                <h1>Nội dung phim</h1>
+              </div>
+              <div className="row col-12 pt-4">
+                <div className="col-3">
+                  <img
+                    src={chiTietPhim.hinhAnh}
+                    style={{ width: "200px", height: "250px" }}
+                  />
                 </div>
-                <div
-                  className="pl-5"
-                  style={{ flex: "0 0 auto", width: "20%" }}
-                >
-                  <>
-                    <Button
-                      type="default"
-                      onClick={() => {
-                        showModal();
-                      }}
+                <div className="col-6">
+                  <h2
+                    style={{
+                      borderBottom: "1px solid #222",
+                    }}
+                  >
+                    {chiTietPhim.tenPhim}
+                  </h2>
+                  <p>Đánh giá: {chiTietPhim.danhGia} điểm</p>
+                  <p>Mô tả: {chiTietPhim.moTa}</p>
+                  <div className="button row">
+                    <div style={{ flex: "0 0 auto", width: "15%" }}>
+                      <Button type="default">
+                        <a href="#datVe">
+                          <Space>
+                            <PrinterOutlined style={{ paddingBottom: "5px" }} />
+                            Đặt vé
+                          </Space>
+                        </a>
+                      </Button>
+                    </div>
+                    <div
+                      className="pl-5"
+                      style={{ flex: "0 0 auto", width: "20%" }}
                     >
-                      <Space>
-                        <VideoCameraTwoTone style={{ paddingBottom: "5px" }} />
-                        Xem trailer
-                      </Space>
-                    </Button>
-                    <Modal
-                      title="Trailer phim"
-                      open={isModalOpen}
-                      onOk={handleOk}
-                      onCancel={handleCancel}
-                      width={650}
-                    >
-                      <div>
-                        <Embedvideo url={chiTietPhim.trailer} />
-                      </div>
-                    </Modal>
-                  </>
+                      <>
+                        <Button
+                          type="default"
+                          onClick={() => {
+                            showModal();
+                          }}
+                        >
+                          <Space>
+                            <VideoCameraTwoTone
+                              style={{ paddingBottom: "5px" }}
+                            />
+                            Xem trailer
+                          </Space>
+                        </Button>
+                        <Modal
+                          title="Trailer phim"
+                          open={isModalOpen}
+                          onOk={handleOk}
+                          onCancel={handleCancel}
+                          width={650}
+                        >
+                          <div>
+                            <Embedvideo url={chiTietPhim.trailer} />
+                          </div>
+                        </Modal>
+                      </>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-3 set-size charts-container">
+                  <div className="circle-wrap">
+                    <div className="circle">
+                      <div className="mask full"></div>
+                      <div className="mask half"></div>
+                      <div className="inside-circle"> 10 </div>
+                    </div>
+                  </div>
+                  <div className="d-flex" style={{ paddingLeft: "1.5rem" }}>
+                    <span className="pl-1">
+                      <StarFilled style={{ color: "red" }} />
+                    </span>
+                    <span className="pl-1">
+                      <StarFilled style={{ color: "red" }} />
+                    </span>
+                    <span className="pl-1">
+                      <StarFilled style={{ color: "red" }} />
+                    </span>
+                    <span className="pl-1">
+                      <StarFilled style={{ color: "red" }} />
+                    </span>
+                    <span className="pl-1">
+                      <StarFilled style={{ color: "red" }} />
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="col-3 set-size charts-container">
-              <div className="circle-wrap">
-                <div className="circle">
-                  <div className="mask full"></div>
-                  <div className="mask half"></div>
-                  <div className="inside-circle"> 10 </div>
+              <div className=" pt-5 text-left" style={{ margin: "20px 229px" }}>
+                <div className="row">
+                  <div
+                    className="col-4 pt-3"
+                    style={{ backgroundColor: "white" }}
+                  >
+                    {dataRap?.map((item, index) => {
+                      return (
+                        <h3
+                          key={index}
+                          className="d-flex align-items-center"
+                          style={{
+                            border: "1.5px solid gray",
+                            borderRadius: "5px",
+                          }}
+                        >
+                          <img width={50} src={item.logo} />
+                          <span className="pl-2">{item.tenHeThongRap}</span>
+                        </h3>
+                      );
+                    })}
+                  </div>
+                  <div
+                    className="col-4  pt-3"
+                    style={{ backgroundColor: "white" }}
+                  >
+                    <div id="datVe">{datVe()}</div>
+                  </div>
                 </div>
-              </div>
-              <div className="d-flex" style={{ paddingLeft: "1.5rem" }}>
-                <span className="pl-1">
-                  <StarFilled style={{ color: "red" }} />
-                </span>
-                <span className="pl-1">
-                  <StarFilled style={{ color: "red" }} />
-                </span>
-                <span className="pl-1">
-                  <StarFilled style={{ color: "red" }} />
-                </span>
-                <span className="pl-1">
-                  <StarFilled style={{ color: "red" }} />
-                </span>
-                <span className="pl-1">
-                  <StarFilled style={{ color: "red" }} />
-                </span>
               </div>
             </div>
           </div>
-          <div className=" pt-5 text-left" style={{ margin: "20px 229px" }}>
-            <div className="row">
-              <div className="col-4 pt-3" style={{ backgroundColor: "white" }}>
-                {dataRap?.map((item, index) => {
-                  return (
-                    <h3
-                      key={index}
-                      className="d-flex align-items-center"
-                      style={{
-                        border: "1.5px solid gray",
-                        borderRadius: "5px",
-                      }}
-                    >
-                      <img width={50} src={item.logo} />
-                      <span className="pl-2">{item.tenHeThongRap}</span>
-                    </h3>
-                  );
-                })}
-              </div>
-              <div className="col-4  pt-3" style={{ backgroundColor: "white" }}>
-                <div id="datVe">{datVe()}</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+        )}
+      </>
     );
   }
 }

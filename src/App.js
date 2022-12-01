@@ -26,12 +26,12 @@ function App() {
         <Routes>
           {/* user */}
           <Route path='/' element={<Layout />}>
-            <Route index path='trangchu' element={<TrangChu />} />
+            <Route index path='trangchu' element={<TrangChu />} loader="auto" />
             <Route path='*' element={<NotFound />} />
             <Route path='login' element={<LogIn />} />
             <Route path='signup' element={<SignUp />} />
             <Route path='infousers' element={<InfoUser />} />
-            <Route path='chitietphim/:maPhim' element={<ChiTietPhim />} />
+            <Route path='chitietphim/:maPhim' element={<ChiTietPhim />} loader="auto" />
             <Route path='datve/:maLichChieu' element={<TrangDatVe />} />
           </Route>
           {/* admin */}

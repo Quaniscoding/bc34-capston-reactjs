@@ -50,15 +50,11 @@ export default function ShowTime() {
   if (timeout != null) {
     clearTimeout(timeout);
   }
-  useEffect(() => {
-    timeout = setTimeout(() => {
-      dispatch(callgetDanhSachThongTinHeThongRap);
-    }, 1000);
-  }, []);
+
   const handleChangeHeThongRap = async (values) => {
     timeout = setTimeout(() => {
       dispatch(layDanhSachCumRap(values));
-    }, 0);
+    }, 1000);
   };
   const handleChangeCumRap = (value) => {
     formik.setFieldValue("maRap", value);
@@ -73,57 +69,73 @@ export default function ShowTime() {
   const onChangeInputNumber = (value) => {
     formik.setFieldValue("giaVe", value);
   };
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    setLoading(true);
+    timeout = setTimeout(() => {
+      setLoading(false);
+      dispatch(callgetDanhSachThongTinHeThongRap);
+    }, 1000);
+  }, []);
   return (
-    <div className="col-5 pt-5">
-      <Form
-        name="basic"
-        labelCol={{
-          span: 8,
-        }}
-        wrapperCol={{
-          span: 8,
-        }}
-        initialValues={{
-          remember: true,
-        }}
-        onSubmitCapture={formik.handleSubmit}
-      >
-        <h3>Tạo lịch chiếu</h3>
-        <FormItem label="Hệ thống rạp">
-          <Select
-            onChange={handleChangeHeThongRap}
-            options={danhSachRap?.map((htr, index) => ({
-              label: htr.tenHeThongRap,
-              value: htr.tenHeThongRap,
-            }))}
-            placeholder="Chọn hệ thống rạp"
-          />
-        </FormItem>
-        <FormItem label="Cụm rạp">
-          <Select
-            onChange={handleChangeCumRap}
-            options={danhSachCumRap?.map((cumRap, index) => ({
-              label: cumRap.tenCumRap,
-              value: cumRap.maCumRap,
-            }))}
-            placeholder="Chọn cụm rạp"
-          />
-        </FormItem>
-        <FormItem label="Ngày chiếu giờ chiếu">
-          <DatePicker
-            format="DD/MM/YYYY hh:mm:ss"
-            showTime
-            onChange={onChangeDate}
-            onOk={onOk}
-          />
-        </FormItem>
-        <FormItem label="Giá vé">
-          <InputNumber onChange={onChangeInputNumber} />
-        </FormItem>
-        <FormItem label="Chức năng">
-          <Button htmlType="submit">Tạo lịch chiếu</Button>
-        </FormItem>
-      </Form>
-    </div>
+    <>
+      {loading ? (
+        <div className="loader-container">
+          <div className="spinner"></div>
+        </div>
+      ) : (
+        <div className="col-5 pt-5">
+          <Form
+            name="basic"
+            labelCol={{
+              span: 8,
+            }}
+            wrapperCol={{
+              span: 8,
+            }}
+            initialValues={{
+              remember: true,
+            }}
+            onSubmitCapture={formik.handleSubmit}
+          >
+            <h3>Tạo lịch chiếu</h3>
+            <FormItem label="Hệ thống rạp">
+              <Select
+                onChange={handleChangeHeThongRap}
+                options={danhSachRap?.map((htr, index) => ({
+                  label: htr.tenHeThongRap,
+                  value: htr.tenHeThongRap,
+                }))}
+                placeholder="Chọn hệ thống rạp"
+              />
+            </FormItem>
+            <FormItem label="Cụm rạp">
+              <Select
+                onChange={handleChangeCumRap}
+                options={danhSachCumRap?.map((cumRap, index) => ({
+                  label: cumRap.tenCumRap,
+                  value: cumRap.maCumRap,
+                }))}
+                placeholder="Chọn cụm rạp"
+              />
+            </FormItem>
+            <FormItem label="Ngày chiếu giờ chiếu">
+              <DatePicker
+                format="DD/MM/YYYY hh:mm:ss"
+                showTime
+                onChange={onChangeDate}
+                onOk={onOk}
+              />
+            </FormItem>
+            <FormItem label="Giá vé">
+              <InputNumber onChange={onChangeInputNumber} />
+            </FormItem>
+            <FormItem label="Chức năng">
+              <Button htmlType="submit">Tạo lịch chiếu</Button>
+            </FormItem>
+          </Form>
+        </div>
+      )}
+    </>
   );
 }

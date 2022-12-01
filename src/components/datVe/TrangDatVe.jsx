@@ -6,7 +6,7 @@ import {
 import axios from "axios";
 import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "../../assets/css/main.css";
 import _ from "lodash";
 import { ThongTinDatVe } from "../../_core/models/ThongTinDatVe";
@@ -16,8 +16,11 @@ import { USER_LOGIN } from "../../utils/constant";
 import { Tabs } from "antd";
 import moment from "moment";
 import Item from "antd/lib/list/Item";
-import { Button, notification } from "antd";
+import { Button } from "antd";
 function TrangDatVe() {
+  const reloadPage = () => {
+    window.location.reload(false);
+  };
   let dispatch = useDispatch();
   const [dataUser, setDataUser] = useState([]);
   const [dataPhongVe, setDataPhongVe] = useState([]);
@@ -44,8 +47,11 @@ function TrangDatVe() {
   if (timeout != null) {
     clearTimeout(timeout);
   }
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
+    setLoading(true);
     timeout = setTimeout(() => {
+      setLoading(false);
       layDataPhongVe();
       datVeXemPhim();
       axios({
@@ -225,6 +231,11 @@ function TrangDatVe() {
                 thongTinDatVe.maLichChieu = params.maLichChieu;
                 thongTinDatVe.danhSachVe = danhSachGheDangDat;
                 dispatch(datVeXemPhim(thongTinDatVe));
+                setLoading(true);
+                setTimeout(() => {
+                  setLoading(false);
+                });
+                reloadPage(true);
               }}
             >
               Đặt vé
@@ -238,54 +249,56 @@ function TrangDatVe() {
 
 function callback(key) {}
 export default function () {
-  const isLogin = getStringLocal("user");
+  const isLogin = getStringLocal(USER_LOGIN);
   const params = useParams();
+  let timeout = null;
+  if (timeout != null) {
+    clearTimeout(timeout);
+  }
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    setLoading(true);
+    timeout = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, [params]);
   return (
-    <div className="container p-5">
-      {isLogin ? (
-        <Tabs defaultActiveKey="1" onChange={callback}>
-          <Tabs.TabPane tab="Chọn ghế thanh toán" key="1">
-            <Item>
-              <TrangDatVe {...params.maLichChieu} />
-            </Item>
-          </Tabs.TabPane>
-          <Tabs.TabPane tab="Kết quả đặt vé" key="2">
-            <Item>
-              <KetQuaDatVe {...params.maLichChieu} />
-            </Item>
-          </Tabs.TabPane>
-        </Tabs>
+    <>
+      {loading ? (
+        <div className="loader-container">
+          <div className="spinner"></div>
+        </div>
       ) : (
-        <>
-          Bạn phải đăng nhập để mua vé ! <a href="/login">Đăng nhập</a>
-        </>
+        <div className="container p-5">
+          {isLogin ? (
+            <Tabs defaultActiveKey="1" onChange={callback}>
+              <Tabs.TabPane tab="Chọn ghế thanh toán" key="1">
+                <Item>
+                  <TrangDatVe {...params.maLichChieu} />
+                </Item>
+              </Tabs.TabPane>
+              <Tabs.TabPane tab="Kết quả đặt vé" key="2">
+                <Item>
+                  <KetQuaDatVe {...params.maLichChieu} />
+                </Item>
+              </Tabs.TabPane>
+            </Tabs>
+          ) : (
+            <>
+              Bạn phải đăng nhập để mua vé ! <a href="/login">Đăng nhập</a>
+            </>
+          )}
+        </div>
       )}
-    </div>
+    </>
   );
 }
 function KetQuaDatVe() {
   const [dataUser, setDataUser] = useState({});
-  const params = useParams();
   let timeout = null;
-
   if (timeout != null) {
     clearTimeout(timeout);
   }
-  useEffect(() => {
-    timeout = setTimeout(() => {
-      axios({
-        method: "POST",
-        url: "https://movienew.cybersoft.edu.vn/api/QuanLyNguoiDung/ThongTinTaiKhoan",
-        headers: {
-          TokenCybersoft:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAzNCIsIkhldEhhblN0cmluZyI6IjI3LzA0LzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY4MjU1MzYwMDAwMCIsIm5iZiI6MTY1MzU4NDQwMCwiZXhwIjoxNjgyNzAxMjAwfQ.WXYIKeb4x0tXpYflgrnKFbivOnuUdLmKcgl7Xr0MD3I",
-          Authorization: `Bearer ${getStringLocal(USER_LOGIN)}`,
-        },
-      }).then((res) => {
-        setDataUser(res.data.content);
-      });
-    }, 0);
-  }, [params.maLichChieu]);
   const renderTicKetItem = function () {
     return dataUser.thongTinDatVe?.map((ticket, index) => {
       const seat = _.first(ticket?.danhSachGhe);
@@ -326,6 +339,22 @@ function KetQuaDatVe() {
       );
     });
   };
+  const params = useParams();
+  useEffect(() => {
+    timeout = setTimeout(() => {
+      axios({
+        method: "POST",
+        url: "https://movienew.cybersoft.edu.vn/api/QuanLyNguoiDung/ThongTinTaiKhoan",
+        headers: {
+          TokenCybersoft:
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAzNCIsIkhldEhhblN0cmluZyI6IjI3LzA0LzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY4MjU1MzYwMDAwMCIsIm5iZiI6MTY1MzU4NDQwMCwiZXhwIjoxNjgyNzAxMjAwfQ.WXYIKeb4x0tXpYflgrnKFbivOnuUdLmKcgl7Xr0MD3I",
+          Authorization: `Bearer ${getStringLocal(USER_LOGIN)}`,
+        },
+      }).then((res) => {
+        setDataUser(res.data.content);
+      });
+    }, 0);
+  }, [params.maLichChieu]);
   return (
     <div className="container">
       <h3>Kết quả đặt vé</h3>

@@ -18,13 +18,12 @@ const TaoLichChieu = createSlice({
 export const { thongTinLichChieu } = TaoLichChieu.actions
 
 export default TaoLichChieu.reducer
-export const taoLichChieu = (thongTinLichChieu) => {
-    return async dispatch => {
-        try {
-            const res = await http.post("/QuanLyDatVe/taoLichChieu", thongTinLichChieu)
-            alert(res.data.content)
-        } catch (err) {
-            console.log(err);
-        }
+export const taoLichChieu = (thongTinLichChieu) => async () => {
+    try {
+        const res = await http.post("/QuanLyDatVe/taoLichChieu", thongTinLichChieu)
+        alert("Tạo lịch chiếu thành công !");
+        console.log(res);
+    } catch (err) {
+        console.log(err);
     }
 }

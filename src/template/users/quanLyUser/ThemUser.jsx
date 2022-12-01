@@ -1,4 +1,4 @@
-import { Button, Form, Input, Select, notification } from "antd";
+import { Button, Form, Input, Select } from "antd";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 
 import React, { useEffect, useState } from "react";
@@ -6,12 +6,6 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import { callUploadUser } from "../../../redux/reducers/userReducer";
-const openNotificationWithIcon = (type) => {
-  notification[type]({
-    message: "Thêm người dùng thành công",
-    description: "Đang chuyển tới trang quản lý",
-  });
-};
 export default function ThemUser() {
   const formik = useFormik({
     initialValues: {
@@ -24,7 +18,6 @@ export default function ThemUser() {
       hoTen: "",
     },
     onSubmit: (values) => {
-      console.log(values);
       dispatch(callUploadUser(values));
     },
   });
@@ -53,91 +46,98 @@ export default function ThemUser() {
   if (timeout != null) {
     clearTimeout(timeout);
   }
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
+    setLoading(true);
     timeout = setTimeout(() => {
+      setLoading(false);
       dispatch(layDanhSachLoaiNguoiDung);
     }, 1000);
   }, []);
   return (
-    <div className="col-9">
-      <h1>Thêm người dùng</h1>
-      <Form onSubmitCapture={formik.handleSubmit}>
-        <div className="row container">
-          <div className="col-6">
-            <h6 className="text-justify pb-2">
-              Email:{" "}
-              <Input
-                name="email"
-                style={{ width: "182.4px" }}
-                placeholder="Email"
-                onChange={formik.handleChange}
-              />
-            </h6>
-            <h6 className="text-justify pb-2">
-              Họ tên:{" "}
-              <Input
-                name="hoTen"
-                style={{ width: "182.4px" }}
-                placeholder="Họ tên"
-                onChange={formik.handleChange}
-              />
-            </h6>
-            <h6 className="text-justify pb-2">
-              Số điện thoại:{" "}
-              <Input
-                name="soDT"
-                style={{ width: "182.4px" }}
-                placeholder="Số điện thoại"
-                onChange={formik.handleChange}
-              />
-            </h6>
-          </div>
-          <div className="col-6">
-            <h6 className="text-justify pb-2">
-              Tài khoản:{" "}
-              <Input
-                name="taiKhoan"
-                style={{ width: "182.4px" }}
-                placeholder="Tài khoản"
-                onChange={formik.handleChange}
-              />
-            </h6>
-            <h6 className="text-justify pb-2">
-              Mật khẩu:{" "}
-              <Input.Password
-                name="matKhau"
-                style={{ width: "182.4px" }}
-                placeholder="Mật khẩu"
-                onChange={formik.handleChange}
-                iconRender={(visible) =>
-                  visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
-                }
-              />
-            </h6>
-            <h6 className="text-justify pb-2">
-              <Select
-                onChange={handleChangleLoaiNguoiDung}
-                options={danhSachLoaiNguoiDung?.map((loaiNguoiDung, index) => ({
-                  label: loaiNguoiDung.tenLoai,
-                  value: loaiNguoiDung.maLoaiNguoiDung,
-                }))}
-                placeholder="Loại người dùng"
-              />
-            </h6>
-            <div className="text-left">
-              <Button
-                htmlType="submit"
-                className="bg-blue-300"
-                onClick={() => {
-                  openNotificationWithIcon("success");
-                }}
-              >
-                Thêm
-              </Button>
-            </div>
-          </div>
+    <>
+      {loading ? (
+        <div className="loader-container">
+          <div className="spinner"></div>
         </div>
-      </Form>
-    </div>
+      ) : (
+        <div className="col-9">
+          <h1>Thêm người dùng</h1>
+          <Form onSubmitCapture={formik.handleSubmit}>
+            <div className="row container">
+              <div className="col-6">
+                <h6 className="text-justify pb-2">
+                  Email:{" "}
+                  <Input
+                    name="email"
+                    style={{ width: "182.4px" }}
+                    placeholder="Email"
+                    onChange={formik.handleChange}
+                  />
+                </h6>
+                <h6 className="text-justify pb-2">
+                  Họ tên:{" "}
+                  <Input
+                    name="hoTen"
+                    style={{ width: "182.4px" }}
+                    placeholder="Họ tên"
+                    onChange={formik.handleChange}
+                  />
+                </h6>
+                <h6 className="text-justify pb-2">
+                  Số điện thoại:{" "}
+                  <Input
+                    name="soDT"
+                    style={{ width: "182.4px" }}
+                    placeholder="Số điện thoại"
+                    onChange={formik.handleChange}
+                  />
+                </h6>
+              </div>
+              <div className="col-6">
+                <h6 className="text-justify pb-2">
+                  Tài khoản:{" "}
+                  <Input
+                    name="taiKhoan"
+                    style={{ width: "182.4px" }}
+                    placeholder="Tài khoản"
+                    onChange={formik.handleChange}
+                  />
+                </h6>
+                <h6 className="text-justify pb-2">
+                  Mật khẩu:{" "}
+                  <Input.Password
+                    name="matKhau"
+                    style={{ width: "182.4px" }}
+                    placeholder="Mật khẩu"
+                    onChange={formik.handleChange}
+                    iconRender={(visible) =>
+                      visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
+                    }
+                  />
+                </h6>
+                <h6 className="text-justify pb-2">
+                  <Select
+                    onChange={handleChangleLoaiNguoiDung}
+                    options={danhSachLoaiNguoiDung?.map(
+                      (loaiNguoiDung, index) => ({
+                        label: loaiNguoiDung.tenLoai,
+                        value: loaiNguoiDung.maLoaiNguoiDung,
+                      })
+                    )}
+                    placeholder="Loại người dùng"
+                  />
+                </h6>
+                <div className="text-left">
+                  <Button htmlType="submit" className="bg-blue-300">
+                    Thêm
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </Form>
+        </div>
+      )}
+    </>
   );
 }

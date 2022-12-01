@@ -83,8 +83,7 @@ export const callUploadUser = (data) => async () => {
     try {
         const apiUpload = await http.post("/QuanLyNguoiDung/ThemNguoiDung", data);
         history.push("/admin/danhSachUser");
-        alert("Cập nhật người dùng thành công !")
-
+        alert("Thêm người dùng thành công !")
     } catch (err) {
         alert(err.response.data.content);
     }
