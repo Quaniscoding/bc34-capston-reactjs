@@ -13,11 +13,12 @@ import Logout from "@mui/icons-material/Logout";
 import { USER_LOGIN } from "../../utils/constant";
 import { Space } from "antd";
 import { UserOutlined } from "@ant-design/icons";
+import { getStringLocal } from "../../utils/config";
 
 export default function Header() {
   let navigate = useNavigate();
   let [reset, setReset] = useState(0);
-
+  let isLogin = getStringLocal(USER_LOGIN);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -144,18 +145,24 @@ export default function Header() {
             transformOrigin={{ horizontal: "right", vertical: "top" }}
             anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
           >
-            <MenuItem>
-              <Avatar />
-              <NavLink className="nav-link" to="/login">
-                Đăng Nhập
-              </NavLink>
-            </MenuItem>
-            <MenuItem>
-              <Avatar />
-              <NavLink className="nav-link" to="/signup">
-                Đăng ký
-              </NavLink>
-            </MenuItem>
+            {isLogin ? (
+              ""
+            ) : (
+              <>
+                <MenuItem>
+                  <Avatar />
+                  <NavLink className="nav-link" to="/login">
+                    Đăng Nhập
+                  </NavLink>
+                </MenuItem>
+                <MenuItem>
+                  <Avatar />
+                  <NavLink className="nav-link" to="/signup">
+                    Đăng ký
+                  </NavLink>
+                </MenuItem>
+              </>
+            )}
             <MenuItem>
               <Avatar />
               <NavLink className="nav-link" to="/infousers">
