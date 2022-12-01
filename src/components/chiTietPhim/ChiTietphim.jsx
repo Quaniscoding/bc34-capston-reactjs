@@ -27,6 +27,7 @@ export default function ChiTietPhim() {
   };
   const [dataRap, setDataRap] = useState([]);
   const [chiTietPhim, setChiTietPhim] = useState({});
+  console.log(chiTietPhim);
   const data = useSelector((state) => state.dataThongTinLichChieu.data);
   const params = useParams();
   const navigate = useNavigate();
@@ -231,7 +232,10 @@ export default function ChiTietPhim() {
                     <div className="circle">
                       <div className="mask full"></div>
                       <div className="mask half"></div>
-                      <div className="inside-circle"> 10 </div>
+                      <div className="inside-circle">
+                        {" "}
+                        {chiTietPhim.danhGia}{" "}
+                      </div>
                     </div>
                   </div>
                   <div className="d-flex" style={{ paddingLeft: "1.5rem" }}>

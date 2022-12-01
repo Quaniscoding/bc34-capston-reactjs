@@ -71,7 +71,7 @@ function TrangDatVe() {
     let danhSachGhe = dataPhongVe.danhSachGhe;
     return danhSachGhe?.map((ghe, index) => {
       let gheVip = ghe.loaiGhe === "Vip" ? "gheVip" : "";
-      let gheDaDat = ghe.loaiGhe === true ? "gheDaDat" : "";
+      let gheDaDat = ghe.taiKhoanNguoiDat == true ? "gheDaDat" : "";
       let gheDangDat = "";
       let indexGheDangDat = danhSachGheDangDat.findIndex(
         (gheDangDat) => gheDangDat.maGhe === ghe.maGhe
@@ -83,6 +83,10 @@ function TrangDatVe() {
       if (dataUser.taiKhoan === ghe.taiKhoanNguoiDat) {
         gheDaDuocDat = "gheDaDuocDat";
       }
+      let disabled = false;
+      if (ghe.daDat == true) {
+        disabled = "gheDaDat";
+      }
       return (
         <Fragment key={index}>
           <button
@@ -92,18 +96,14 @@ function TrangDatVe() {
                 gheDuocChon: ghe,
               });
             }}
-            className={`text-center ghe ${gheVip}  ${gheDaDat} ${gheDangDat} ${gheDaDuocDat}`}
+            className={`text-center ghe cursor-no-drop ${gheVip} ${gheDaDat} ${gheDangDat} ${disabled} ${gheDaDuocDat} `}
             disabled={ghe.daDat}
             key={index}
           >
             {ghe.daDat ? (
-              gheDaDat != "" ? (
-                <VerifiedUserOutlined />
-              ) : (
-                <CloseOutlined
-                  style={{ marginBottom: 7.5, fontWeight: "bold" }}
-                />
-              )
+              <CloseOutlined
+                style={{ marginBottom: 7.5, fontWeight: "bold" }}
+              />
             ) : (
               ghe.stt
             )}
@@ -141,23 +141,19 @@ function TrangDatVe() {
               <tbody className=" divide-y divide-gray-200">
                 <tr>
                   <td>
-                    <button className="ghe text-center">
-                      <CheckOutlined />
-                    </button>
+                    <button className="ghe text-center"></button>
                   </td>
                   <td>
-                    <button className="ghe gheDangDat text-center">
-                      <CheckOutlined />
-                    </button>
+                    <button className="ghe gheDangDat text-center"></button>
                   </td>
                   <td>
-                    <button className="ghe gheVip text-center">
-                      <CheckOutlined />
-                    </button>
+                    <button className="ghe gheVip text-center"></button>
                   </td>
                   <td>
-                    <button disabled className="ghe text-center">
-                      <CheckOutlined />
+                    <button disabled className="ghe gheDaDat text-center">
+                      <CloseOutlined
+                        style={{ marginBottom: 5, fontWeight: "bold" }}
+                      />
                     </button>
                   </td>
                   <td>
