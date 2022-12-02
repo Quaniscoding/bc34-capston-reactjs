@@ -27,7 +27,6 @@ export default function ChiTietPhim() {
   };
   const [dataRap, setDataRap] = useState([]);
   const [chiTietPhim, setChiTietPhim] = useState({});
-  console.log(chiTietPhim);
   const data = useSelector((state) => state.dataThongTinLichChieu.data);
   const params = useParams();
   const navigate = useNavigate();

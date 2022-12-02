@@ -94,69 +94,75 @@ export default function HomeTicketMovie() {
                 <h2 style={{ color: "transparent" }}>mo</h2>
               </div>
             </div>
-            <OwlCarousel
-              className="owl-theme"
-              loop
-              margin={10}
-              autoPlay={true}
-              items={4}
-            >
-              {danhSachPhim.map((item, index) => {
-                return (
-                  <MDBRipple
-                    key={index}
-                    className="bg-image"
-                    rippleTag="div"
-                    rippleColor="dark"
-                  >
-                    <img
-                      src={item.hinhAnh}
-                      className=""
-                      style={{ width: "300px", height: "400px" }}
-                    />
-                    <a href="#!">
-                      <div
-                        className="mask"
-                        style={{ backgroundColor: "rgba(0, 0, 0, 0.4)" }}
-                      ></div>
-                      <div className="hover-overlay">
+            {loading ? (
+              <div className="loader-container">
+                <div className="spinner"></div>
+              </div>
+            ) : (
+              <OwlCarousel
+                className="owl-theme"
+                loop
+                margin={10}
+                autoPlay={true}
+                items={4}
+              >
+                {danhSachPhim.map((item, index) => {
+                  return (
+                    <MDBRipple
+                      key={index}
+                      className="bg-image"
+                      rippleTag="div"
+                      rippleColor="dark"
+                    >
+                      <img
+                        src={item.hinhAnh}
+                        className=""
+                        style={{ width: "300px", height: "400px" }}
+                      />
+                      <a href="#!">
                         <div
                           className="mask"
-                          style={{
-                            backgroundColor: "rgba(251, 251, 251, 0.2)",
-                          }}
-                        >
-                          <div className="h-100">
-                            <div className="imgPhim">
-                              <h4
-                                className="align-items-center"
-                                style={{ color: "turquoise" }}
-                              >
-                                Tên phim: {item.tenPhim}
-                              </h4>
-                              <h5 className="text-white mb-0">
-                                Đánh giá: {item.danhGia} điểm
-                              </h5>
-                              <div className="pt-2">
-                                <button
-                                  type="button"
-                                  className="btn btn-outline-light "
-                                  onClick={() =>
-                                    navigate(`/chitietphim/${item.maPhim}`)
-                                  }
+                          style={{ backgroundColor: "rgba(0, 0, 0, 0.4)" }}
+                        ></div>
+                        <div className="hover-overlay">
+                          <div
+                            className="mask"
+                            style={{
+                              backgroundColor: "rgba(251, 251, 251, 0.2)",
+                            }}
+                          >
+                            <div className="h-100">
+                              <div className="imgPhim">
+                                <h4
+                                  className="align-items-center"
+                                  style={{ color: "turquoise" }}
                                 >
-                                  Đặt vé
-                                </button>
+                                  Tên phim: {item.tenPhim}
+                                </h4>
+                                <h5 className="text-white mb-0">
+                                  Đánh giá: {item.danhGia} điểm
+                                </h5>
+                                <div className="pt-2">
+                                  <button
+                                    type="button"
+                                    className="btn btn-outline-light "
+                                    onClick={() =>
+                                      navigate(`/chitietphim/${item.maPhim}`)
+                                    }
+                                  >
+                                    Đặt vé
+                                  </button>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </a>
-                  </MDBRipple>
-                );
-              })}
-            </OwlCarousel>
+                      </a>
+                    </MDBRipple>
+                  );
+                })}
+              </OwlCarousel>
+            )}
           </div>
           <div className=" pt-5 text-left row" id="cumrap">
             <div className="col-2">
