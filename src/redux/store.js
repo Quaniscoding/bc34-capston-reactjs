@@ -1,5 +1,5 @@
-//redux toolkit
-import { combineReducers, configureStore, createStore } from '@reduxjs/toolkit'
+
+import { configureStore } from '@reduxjs/toolkit'
 import danhSachPhimReducer from './reducers/danhSachPhimReducer'
 import bannerReducer from './reducers/bannerReducer'
 import thongTinChieuHeThongRap from './reducers/layThongTinChieuHeThongRap'

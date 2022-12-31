@@ -1,8 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
 import axios from 'axios';
-import { removeLocal } from '../../utils/config';
-import { USER_LOGIN } from '../../utils/constant';
-
 const initialState = {
     danhSachThongTinHeThongRap: []
 }

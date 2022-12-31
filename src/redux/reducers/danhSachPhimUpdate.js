@@ -1,8 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { http } from '../../utils/baseUrl';
-import { removeLocal } from '../../utils/config';
-import { USER_LOGIN } from '../../utils/constant';
-
 const initialState = {
     thongTinPhim: {}
 }

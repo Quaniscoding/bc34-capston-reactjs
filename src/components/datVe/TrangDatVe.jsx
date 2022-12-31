@@ -1,12 +1,8 @@
-import {
-  CheckOutlined,
-  CloseOutlined,
-  VerifiedUserOutlined,
-} from "@mui/icons-material";
+import { CloseOutlined } from "@mui/icons-material";
 import axios from "axios";
 import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import "../../assets/css/main.css";
 import _ from "lodash";
 import { ThongTinDatVe } from "../../_core/models/ThongTinDatVe";
@@ -18,9 +14,6 @@ import moment from "moment";
 import Item from "antd/lib/list/Item";
 import { Button } from "antd";
 function TrangDatVe() {
-  const reloadPage = () => {
-    window.location.reload(false);
-  };
   let dispatch = useDispatch();
   const [dataUser, setDataUser] = useState([]);
   const [dataPhongVe, setDataPhongVe] = useState([]);

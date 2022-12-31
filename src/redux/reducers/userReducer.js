@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { removeLocal, saveStringLocal } from '../../utils/config';
+import { saveStringLocal } from '../../utils/config';
 import { history } from '../../utils/history';
 import { USER_LOGIN } from '../../utils/constant';
 import { http } from '../../utils/baseUrl';

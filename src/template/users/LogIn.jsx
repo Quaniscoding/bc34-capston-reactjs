@@ -1,7 +1,5 @@
-//rfc
-import React, { Suspense, useState } from "react";
+import React, { useState } from "react";
 import { Button, Form, Input, notification, Result } from "antd";
-import { SmileOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
 import { callLogin } from "../../redux/reducers/userReducer";
 import { USER_LOGIN } from "../../utils/constant";

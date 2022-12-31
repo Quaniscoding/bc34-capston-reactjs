@@ -1,4 +1,3 @@
-//rxslice
 
 import { createSlice } from '@reduxjs/toolkit';
 import { http } from '../../utils/baseUrl';
