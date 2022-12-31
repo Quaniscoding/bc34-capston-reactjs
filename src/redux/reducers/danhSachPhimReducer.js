@@ -23,7 +23,7 @@ export default danhSachPhimReducer.reducer
 
 export const callGetDanhSachPhim = async (dispatch) => {
     try {
-        const apiGetPhim = await http.get("/QuanLyPhim/LayDanhSachPhim?maNhom=GP04")
+        const apiGetPhim = await http.get("/QuanLyPhim/LayDanhSachPhim?maNhom=GP09")
         dispatch(getDanhSachPhim(apiGetPhim.data.content));
     } catch (err) {
         console.log(err);

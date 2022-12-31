@@ -23,11 +23,11 @@ export const callGetDanhSachUser = (keyWord) => {
     return async (dispatch) => {
         try {
             if (keyWord != "") {
-                const apiGetUser = await http.get(`/QuanLyNguoiDung/LayDanhSachNguoiDung?maNhom=GP04&tuKhoa=${keyWord}`)
+                const apiGetUser = await http.get(`/QuanLyNguoiDung/LayDanhSachNguoiDung?maNhom=GP09&tuKhoa=${keyWord}`)
                 dispatch(getDanhSachUser(apiGetUser.data.content));
             }
             else {
-                const apiGetUser = await http.get(`/QuanLyNguoiDung/LayDanhSachNguoiDung?maNhom=GP04`)
+                const apiGetUser = await http.get(`/QuanLyNguoiDung/LayDanhSachNguoiDung?maNhom=GP09`)
                 dispatch(getDanhSachUser(apiGetUser.data.content));
             }
 

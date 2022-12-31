@@ -1,13 +1,10 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import { getStringLocal } from "../../utils/config";
-import { USER_LOGIN } from "../../utils/constant";
+
 import Footer from "./Footer";
 import Header from "./Header";
 
 export default function Layout() {
-  let isLogin = getStringLocal(USER_LOGIN);
-
   return (
     <div
       style={{
@@ -17,7 +14,7 @@ export default function Layout() {
     >
       <Header />
       <Outlet />
-      {isLogin ? <Footer /> : ""}
+      <Footer />
     </div>
   );
 }

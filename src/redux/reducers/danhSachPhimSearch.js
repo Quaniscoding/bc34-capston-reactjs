@@ -23,11 +23,11 @@ export const callGetDanhSachPhim = (keyWord) => {
     return async (dispatch) => {
         try {
             if (keyWord == "") {
-                const apiGetPhim = await http.get(`/QuanLyPhim/LayDanhSachPhim?maNhom=GP04`)
+                const apiGetPhim = await http.get(`/QuanLyPhim/LayDanhSachPhim?maNhom=GP09`)
                 dispatch(getDanhSachPhim(apiGetPhim.data.content));
             }
             else {
-                const apiGetPhim = await http.get(`/QuanLyPhim/LayDanhSachPhim?maNhom=GP04&tenPhim=${keyWord}`)
+                const apiGetPhim = await http.get(`/QuanLyPhim/LayDanhSachPhim?maNhom=GP09&tenPhim=${keyWord}`)
                 dispatch(getDanhSachPhim(apiGetPhim.data.content));
             }
         } catch (error) {

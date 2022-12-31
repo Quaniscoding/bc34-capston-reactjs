@@ -227,11 +227,7 @@ function TrangDatVe() {
                 thongTinDatVe.maLichChieu = params.maLichChieu;
                 thongTinDatVe.danhSachVe = danhSachGheDangDat;
                 dispatch(datVeXemPhim(thongTinDatVe));
-                setLoading(true);
-                setTimeout(() => {
-                  setLoading(false);
-                });
-                reloadPage(true);
+                dispatch(layDataPhongVe());
               }}
             >
               Đặt vé
